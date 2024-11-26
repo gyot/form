@@ -1,0 +1,46 @@
+SELECT
+    `arsip`.`form_datas`.`id` AS `id_anggota`,
+    `arsip`.`form_datas`.`nama` AS `nama`,
+    `arsip`.`form_datas`.`nip` AS `nip`,
+    `arsip`.`form_datas`.`email` AS `email`,
+    `arsip`.`form_datas`.`jenis_kelamin` AS `jenis_kelamin`,
+    `arsip`.`form_datas`.`tempat_lahir` AS `tempat_lahir`,
+    `arsip`.`form_datas`.`tanggal_lahir` AS `tanggal_lahir`,
+    `arsip`.`form_datas`.`nama_instansi` AS `nama_instansi`,
+    `arsip`.`form_datas`.`jabatan` AS `jabatan`,
+    `arsip`.`form_datas`.`pangkat_golongan` AS `pangkat_golongan`,
+    `arsip`.`form_datas`.`pendidikan_terakhir` AS `pendidikan_terakhir`,
+    `arsip`.`form_datas`.`no_hp` AS `no_hp`,
+    `arsip`.`form_datas`.`provider` AS `provider`,
+    `arsip`.`form_datas`.`agama` AS `agama`,
+    `arsip`.`form_datas`.`kabupaten_kota` AS `kabupaten_kota`,
+    `arsip`.`form_datas`.`nomor_rekening` AS `nomor_rekening`,
+    `arsip`.`form_datas`.`nama_bank` AS `nama_bank`,
+    `arsip`.`form_datas`.`tanda_tangan_path` AS `tanda_tangan_path`,
+    `arsip`.`agenda_kegiatans`.`id` AS `id_kegiatan`,
+    `arsip`.`agenda_kegiatans`.`nama_kegiatan` AS `nama_kegiatan`,
+    `arsip`.`agenda_kegiatans`.`tpk` AS `tpk`,
+    `arsip`.`agenda_kegiatans`.`tanggal_mulai` AS `tanggal_mulai`,
+    `arsip`.`agenda_kegiatans`.`tanggal_selesai` AS `tanggal_selesai`,
+    `arsip`.`agenda_kegiatans`.`pola_kegiatan` AS `pola_kegiatan`,
+    `arsip`.`agenda_kegiatans`.`flyer` AS `flyer`,
+    `arsip`.`agenda_kegiatans`.`materi` AS `materi`,
+    `arsip`.`agenda_kegiatans`.`dokumentasi` AS `dokumentasi`,
+    `arsip`.`agenda_kegiatans`.`panduan` AS `panduan`,
+    `arsip`.`agenda_kegiatans`.`jenis_kegiatan` AS `jenis_kegiatan`,
+    `arsip`.`agenda_kegiatans`.`kode_kegiatan` AS `kode_kegiatan`,
+    `arsip`.`agenda_kegiatans`.`id_user` AS `id_user`
+FROM
+    (
+        (
+            `arsip`.`form_datas`
+        JOIN `arsip`.`bio_data` ON
+            (
+                `arsip`.`form_datas`.`id` = `arsip`.`bio_data`.`id_user`
+            )
+        )
+    JOIN `arsip`.`agenda_kegiatans` ON
+        (
+            `arsip`.`agenda_kegiatans`.`id` = `arsip`.`bio_data`.`id_kegiatan`
+        )
+    )

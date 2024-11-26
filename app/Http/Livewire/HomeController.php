@@ -8,6 +8,6 @@ class HomeController extends Component
 {
     public function kegiatan()
     {
-        return view('layouts.home.kegiatan');
+        return view('livewire.home.kegiatan');
     }
 }

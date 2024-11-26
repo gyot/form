@@ -22,15 +22,22 @@ use App\Http\Livewire\HomeController;
 // --------------------------------------------------------------------------
 Route::get('/{id_kegiatan}/{status}/{kegiatan}', [FormDataController::class, 'index']);
 // Route::get('/{id_kegiatan}', [PagesController::class, 'createWordDocument']);
-Route::post('/simpan', [FormDataController::class, 'store'])->name('form_data.store');
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
+Route::post('/simpan_biodata', [FormDataController::class, 'store'])->name('form_data.store');
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified'
+// ])->prefix('home')->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+//     Route::get('/kegiatan',[HomeController::class, 'kegiatan']);
+// });
+
+Route::prefix('home')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/kegiatan',[HomeController::class, 'kegiatan']);
 });
 
-Route::get('/kegiatan',[HomeController::class, 'kegiatan']);

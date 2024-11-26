@@ -1,0 +1,37 @@
+/* Gaya untuk menu aktif */
+.nav-item.active {
+    background-color: #4a535c; /* Warna latar belakang menu aktif */
+    color: #fff !important; /* Warna teks menu aktif */
+    border-radius: 4px; /* Memberikan sudut melengkung */
+}
+
+.nav-item.active i {
+    color: #fff; /* Warna ikon pada menu aktif */
+}
+
+/* Gaya hover untuk menu aktif agar tetap konsisten */
+.nav-item.active:hover {
+    background-color: #4a535c; /* Warna saat hover pada menu aktif */
+    color: #fff !important;
+}
+
+/* Gaya untuk menu lainnya agar terlihat kontras */
+.nav-item a {
+    color: #adb5bd; /* Warna default teks menu */
+    transition: all 0.3s ease-in-out; /* Animasi untuk transisi */
+}
+
+.nav-item a:hover {
+    background-color: #f4f4f4; /* Warna latar saat hover */
+    color: #007bff; /* Warna teks saat hover */
+    border-radius: 4px;
+}
+
+*{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: 8;
+    font-weight: normal;
+    font-style: normal;
+    font-size : small;
+}
+

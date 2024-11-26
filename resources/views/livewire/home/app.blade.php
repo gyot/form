@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
         integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- AdminLTE CSS -->
-    <link href="{{ asset('css/adminlte.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/adminlte.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <style>
         .daftar_kegitan {
             display: flex;
@@ -48,6 +52,9 @@
         .btn-primary {
             margin-top: 10px;
         }
+
+        
+
     </style>
 </head>
 
@@ -92,7 +99,7 @@
             <a href="{{ url('/home') }}" class="brand-link">
                 <img src="{{ asset('img/logo_kemdikbud.png') }}" alt="Brand Logo"
                     class="brand-image img-circle elevation-3"
-                    style="opacity: .8; width: 35px; height: 35px; object-fit: cover;">
+                    style="opacity: 1; width: 35px; height: 35px; object-fit: cover;">
                 <span class="brand-text font-weight-light">My Application</span>
             </a>
 
@@ -106,7 +113,7 @@
                             style="width: 35px; height: 35px; object-fit: cover;">
                     </div>
                     <div class="info">
-                        <a href="/profile" class="d-block">John Doe</a>
+                        <a href="/home/profile" class="d-block">John Doe</a>
                     </div>
                 </div>
 
@@ -115,43 +122,43 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <!-- Menu 1 -->
-                        <li class="nav-item">
+                        <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
                             <a href="/home" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>Beranda</p>
                             </a>
                         </li>
                         <!-- Menu 3 -->
-                        <li class="nav-item">
-                            <a href="/kegiatan" class="nav-link">
+                        <li class="nav-item {{ Request::path() == 'home/kegiatan' ? 'active' : '' }}">
+                            <a href="/home/kegiatan" class="nav-link">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>Kegiatan</p>
                             </a>
                         </li>
                         <!-- Menu 2 -->
                         <li class="nav-item">
-                            <a href="/profile" class="nav-link">
+                            <a href="/home/profile" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
                         <!-- Menu 3 -->
                         <li class="nav-item">
-                            <a href="/reports" class="nav-link">
+                            <a href="/home/reports" class="nav-link">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>Reports</p>
                             </a>
                         </li>
                         <!-- Menu 4 -->
                         <li class="nav-item">
-                            <a href="/settings" class="nav-link">
+                            <a href="/home/settings" class="nav-link">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>Settings</p>
                             </a>
                         </li>
                         <!-- Menu 5 -->
                         <li class="nav-item">
-                            <a href="/help" class="nav-link">
+                            <a href="/home/help" class="nav-link">
                                 <i class="nav-icon fas fa-question-circle"></i>
                                 <p>Help</p>
                             </a>

@@ -1,4 +1,4 @@
-@extends('layouts.home.app')
+@extends('livewire.home.app')
 
 @section('content')
     <div class="row">

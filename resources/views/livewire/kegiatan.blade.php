@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Edit Agenda Kegiatan</h2>
-    <form action="{{ route('agenda.update', $agendaKegiatan->id) }}" method="POST">
+    <form action="" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">

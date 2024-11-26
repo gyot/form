@@ -213,4 +213,8 @@ class PagesController extends Component
         
         return "{$dTanggal} {$bulan[$mTanggal]} {$yTanggal}";
     }
+
+    function kegiatan(){
+        return view('layouts.kegiatan.index');
+    }
 }

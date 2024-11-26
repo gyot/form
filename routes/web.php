@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\FormDataController;
 use App\Http\Livewire\PagesController;
+use App\Http\Livewire\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,4 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/home',function (){
-    return view('home');
-});
+Route::get('/kegiatan',[HomeController::class, 'kegiatan']);

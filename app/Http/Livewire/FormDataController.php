@@ -26,7 +26,7 @@ class FormDataController extends Component
          $pulsa='0';
 
          $path = public_path('assets/img/').$data_kegiatan[0]->flyer;
-        dd(URL::to('/'));
+        // dd(URL::to('/'));
         //  if (File::exists($path)) {
         //     // Konversi gambar ke format Base64
         //     $imageData = base64_encode(File::get($path));

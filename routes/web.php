@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\FormDataController;
 use App\Http\Livewire\PagesController;
 use App\Http\Livewire\HomeController;
+use App\Http\Livewire\AgendaKegiatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::prefix('home')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/kegiatan',[HomeController::class, 'kegiatan']);
+    Route::get('/kegiatan',[AgendaKegiatanController::class, 'index'])->name('agenda.index');
+    Route::post('/tambah-kegiatan', [AgendaKegiatanController::class, 'store'])->name('kegiatan.store');
 });
 

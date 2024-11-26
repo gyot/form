@@ -10,7 +10,7 @@ class AgendaKegiatanController extends Controller
     public function index()
     {
         $agendaKegiatan = AgendaKegiatan::all();
-        return view('agenda.index', compact('agendaKegiatan'));
+        return view('livewire.home.kegiatan', compact('agendaKegiatan'));
     }
 
     public function create()

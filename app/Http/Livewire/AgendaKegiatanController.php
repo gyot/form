@@ -3,13 +3,15 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\AgendaKegiatan;
+use Illuminate\Http\Request;
 
 class AgendaKegiatanController extends Component
 {
     public function index()
     {
         $agendaKegiatan = AgendaKegiatan::all();
-        return view('agenda.index', compact('agendaKegiatan'));
+        return view('livewire.home.kegiatan', compact('agendaKegiatan'));
     }
 
     public function create()
@@ -19,31 +21,51 @@ class AgendaKegiatanController extends Component
 
     public function store(Request $request)
     {
+        // dd($request->all());
+        $pulsa=$request->pulsa == 1 ? 1 : 0;
+        $rekening=$request->rekening == 1 ? 1 : 0;
+        $kodeKegiatan=$this->generateRandomString();
         $request->validate([
             'nama_kegiatan' => 'required|string|max:255',
             'tpk' => 'required|string|max:255',
             'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date',
-            'pola_kegiatan' => 'required|string',
-            'flyer' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'pola_kegiatan' => 'required|string|max:255',
+            'flyer' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:2048',
             'materi' => 'nullable|url',
             'dokumentasi' => 'nullable|url',
             'panduan' => 'nullable|url',
-            'jenis_kegiatan' => 'required|string',
-            'kode_kegiatan' => 'required|string|unique:agenda_kegiatans,kode_kegiatan',
-            'id_user' => 'required|integer',
+            'jenis_kegiatan' => 'required|string|max:255',
+            'kode_kegiatan' => 'required|string|max:20',
+            'pulsa' => 'nullable|boolean',
+            'rekening' => 'nullable|boolean',
+            'id_user' => 'required|exists:users,id',
         ]);
+        $data=array($request->all());
+        // kode_kegiatan
+        dd($data);
+        // $data = $request->all();
 
-        $data = $request->all();
+        // // Handle file upload for flyer
+        // if ($request->hasFile('flyer')) {
+        //     $data['flyer'] = $request->file('flyer')->store('flyers', 'public');
+        // }
 
-        // Handle file upload for flyer
-        if ($request->hasFile('flyer')) {
-            $data['flyer'] = $request->file('flyer')->store('flyers', 'public');
+        // AgendaKegiatan::create($data);
+
+        // return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil ditambahkan.');
+    }
+
+    private function generateRandomString($length = 6) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+    
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-
-        AgendaKegiatan::create($data);
-
-        return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil ditambahkan.');
+    
+        return $randomString;
     }
 
     public function show($id)

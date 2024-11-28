@@ -6,7 +6,7 @@
         <br>
         <div id="card-container" class="row daftar_kegitan">
             <!-- Card 1 -->
-            @foreach ($agendaKegiatan as $item)
+            {{-- @foreach ($agendaKegiatan as $item)
             <div class="card">
                 <img class="card-img-top"
                     src="{{asset('storage/'.$item->flyer)}}"
@@ -24,14 +24,12 @@
                     <a href="#" class="btn btn-primary">Detail</a>
                 </div>
             </div>
-            @endforeach
+            @endforeach --}}
         </div>
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center mt-4" id="pagination">
-                <li class="page-item active">
-                    <a class="page-link" href="#" data-page="1">1</a>
-                </li>
+
             </ul>
         </nav>
     </div>

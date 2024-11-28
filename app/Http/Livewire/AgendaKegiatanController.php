@@ -10,16 +10,31 @@ class AgendaKegiatanController extends Component
 {
     public function index()
     {
-        $agendaKegiatan = AgendaKegiatan::orderByRaw('tanggal_mulai - tanggal_selesai DESC')
+        $agendaKegiatan = AgendaKegiatan::orderBy('tanggal_mulai', 'desc')
         ->get();
 
         return view('livewire.home.kegiatan', compact('agendaKegiatan'));
     }
 
-    function dataApiKegaitan() {
-        $agendaKegiatan = AgendaKegiatan::orderByRaw('tanggal_mulai - tanggal_selesai DESC')
-        ->get();
-        return response()->json($agendaKegiatan);
+    function dataApiKegaitan(Request $request) {
+        $perPage = $request->get('perPage', 5); // Jumlah data per halaman, default 10
+        $page = $request->get('page', 1);       // Halaman saat ini, default 1
+
+        // Ambil data menggunakan paginate()
+        $data = AgendaKegiatan::orderBy('tanggal_mulai', 'desc')
+        ->paginate($perPage);
+
+        // Respons JSON
+        return response()->json([
+            'data' => $data->items(), // Data untuk halaman ini
+            'current_page' => $data->currentPage(),
+            'last_page' => $data->lastPage(),
+            'total' => $data->total(), // Total semua data
+        ]);
+
+        // $agendaKegiatan = AgendaKegiatan::paginate($perPage)->orderByRaw('tanggal_mulai - tanggal_selesai DESC')
+        // ->get();
+        // return response()->json($agendaKegiatan);
     }
 
     public function create()

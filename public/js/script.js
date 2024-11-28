@@ -1,20 +1,22 @@
 $(document).ready(function () {
-    const itemsPerPage = 4;
+    const itemsPerPage = 5;
     let currentPage = 1;
     let totalData = 0;
     let displayedIds = []; // Menyimpan ID dari card yang sudah ditampilkan
 
     // Fungsi untuk mengambil data dari API Laravel berdasarkan halaman
     function fetchData(page) {
-        console.log(window.location.origin+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`);
+        console.log(BASE_URL+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`);
         
         $.ajax({
-            url: window.location.origin+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`, // Ganti dengan URL API Laravel Anda
+            url: BASE_URL+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`, // Ganti dengan URL API Laravel Anda
             method: 'GET',
             dataType: 'json',
             success: function (response) {
-                totalData = response.length; // Asumsi response.total adalah total data keseluruhan
-                renderCards(response);
+                console.log(response);
+                
+                totalData = response.total; // Asumsi response.total adalah total data keseluruhan
+                renderCards(response.data);
                 renderPagination(page, response.last_page); // Asumsi response.last_page adalah total halaman
             },
             error: function (error) {
@@ -88,30 +90,56 @@ $(document).ready(function () {
     }
 
     // Fungsi untuk menambahkan data baru
-    $('#addCardForm').on('submit', function (e) {
+    $('#formTambahKegiatan').on('submit', function (e) {
         e.preventDefault();
-        
-        const formData = {
-            title: $('#title').val(),
-            content: $('#content').val(),
-            image_url: $('#image_url').val()
-        };
-
-        $.ajax({
-            url: 'http://localhost:8000/api/cards', // Ganti dengan URL API Laravel Anda untuk POST data
-            method: 'POST',
-            data: formData,
-            success: function (response) {
-                // Tutup modal setelah data ditambahkan
-                $('#addCardModal').modal('hide');
-                
-                // Tambahkan data baru ke halaman pertama
-                currentPage = 1;
-                fetchData(currentPage);
-            },
-            error: function (error) {
-                console.error("Gagal menambahkan data:", error);
+        // let _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+    
+        // Event submit form
+        $('#formTambahKegiatan').on('submit', function (e) {
+            e.preventDefault(); // Mencegah form reload halaman secara default
+    
+            // Buat objek FormData untuk menangani input file
+            let formData = new FormData(this);
+    
+            // Kirim data via AJAX
+            $.ajax({
+                url: $(this).attr('action'), // Ambil URL dari atribut 'action' pada form
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                
+                    // Tambahkan data baru ke halaman pertama
+                    currentPage = 1;
+                    fetchData(currentPage);
+                    // Tampilkan notifikasi sukses
+    
+                    // Tutup modal
+                    $('#modalTambahKegiatan').modal('hide');
+    
+                    // Refresh data pada tabel atau kartu
+                    // fetchData(1); // Panggil fungsi untuk mengambil data baru
+                },
+                error: function (error) {
+                    // Tampilkan pesan error
+                    console.error("Gagal menyimpan data:", error);
+    
+                    // Tampilkan error detail jika ada
+                    if (error.responseJSON && error.responseJSON.errors) {
+                        let errors = error.responseJSON.errors;
+                        let errorMessages = Object.values(errors).flat().join("\n");
+                        alert("Terjadi kesalahan:\n" + errorMessages);
+                    } else {
+                        alert('Terjadi kesalahan saat menyimpan data!');
+                    }
+                }
+            });
         });
     });
 

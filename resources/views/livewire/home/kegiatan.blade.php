@@ -4,7 +4,7 @@
     <div class="container ">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahKegiatan">Tambah Kegiatan</button>
         <br>
-        <div class="row daftar_kegitan">
+        <div id="card-container" class="row daftar_kegitan">
             <!-- Card 1 -->
             @foreach ($agendaKegiatan as $item)
             <div class="card">
@@ -26,6 +26,14 @@
             </div>
             @endforeach
         </div>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center mt-4" id="pagination">
+                <li class="page-item active">
+                    <a class="page-link" href="#" data-page="1">1</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
     {{-- Modal input kegiatan --}}

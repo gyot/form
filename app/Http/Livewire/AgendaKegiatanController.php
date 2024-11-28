@@ -12,8 +12,14 @@ class AgendaKegiatanController extends Component
     {
         $agendaKegiatan = AgendaKegiatan::orderByRaw('tanggal_mulai - tanggal_selesai DESC')
         ->get();
-        
+
         return view('livewire.home.kegiatan', compact('agendaKegiatan'));
+    }
+
+    function dataApiKegaitan() {
+        $agendaKegiatan = AgendaKegiatan::orderByRaw('tanggal_mulai - tanggal_selesai DESC')
+        ->get();
+        return response()->json($agendaKegiatan);
     }
 
     public function create()

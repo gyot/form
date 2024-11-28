@@ -50,8 +50,7 @@ class FormDataController extends Component
 
     }
 
-
-    public function store(Request $request)
+        public function store(Request $request)
     {
         // Validasi data input
         // dd($request->tanda_tangan);

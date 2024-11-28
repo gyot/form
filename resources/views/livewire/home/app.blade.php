@@ -179,6 +179,11 @@
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('js/adminlte.min.js') }}"></script>
+        <script>
+            const BASE_URL = "{{ url('/') }}";
+            const BASE_STORAGE_URL = "{{ asset('storage') }}";
+        </script>
+        <script src="{{ asset('js/script.js')}}"></script>
     </div>
 </body>
 

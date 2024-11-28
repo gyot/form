@@ -49,33 +49,43 @@
             font-size: 0.9em;
         }
         .signature-pad-container {
-    position: relative;
-    width: 100%; /* Responsif: lebar penuh container */
-    height: 0;
-    padding-bottom: 50%; /* Mengatur rasio 2:1 (lebar x tinggi) */
-    border: 1px solid #000;
-    border-radius: 10px;
-    background-color: #f8f9fa;
-}
+            position: relative;
+            width: 100%; /* Responsif: lebar penuh container */
+            height: 0;
+            padding-bottom: 50%; /* Mengatur rasio 2:1 (lebar x tinggi) */
+            border: 1px solid #000;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
 
-.signature-pad {
-    position: absolute;
-    width: 300px;
-    height: 200px;
-}
+        .signature-pad {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+        }
 
-#ttd_field{
-    height: 250px;
-}
+        #ttd_field{
+            height: 250px;
+        }
+        .card {
+            width: 100%;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            padding: 0px;
+        }
 
+        .card-img-top {
+            width: 100%;
+            height: 400px;
+            object-fit: contain; /* Gambar proporsional sesuai orientasi */
+            background: linear-gradient(6deg, rgb(85, 150, 203) 0%, rgb(190, 208, 245) 48%);
+        }
     </style>
 </head>
 
 <body>
-    <div class="container" style="margin: none;padding: 0px;border-radius: 8px;">
-        <img src="data:{{ $mimeType }};base64,{{ $imageData }}" style="width: 100%; height: auto;margin: none;padding: 0px;border-radius: 8px;" alt="Image" alt="{{$nama_kegiatan}}" onerror="this.onerror=null; this.src='https://bpmpntb.kemdikbud.go.id/img/header_form.jpg'">
-
-        {{-- <img style="width: 100%; height: auto;margin: none;padding: 0px;border-radius: 8px;" src="data:{{ $mimeType  }};base64,{{$imageData }}}" alt="{{$nama_kegiatan}}" onerror="this.onerror=null; this.src='https://bpmpntb.kemdikbud.go.id/img/header_form.jpg'"> --}}
+    <div class="container card">
+        <img class="card-img-top" src="data:{{ $mimeType }};base64,{{ $imageData }}" alt="Image" alt="{{$nama_kegiatan}}" onerror="this.onerror=null; this.src='https://bpmpntb.kemdikbud.go.id/img/header_form.jpg'">
     </div>
     <div class="container mt-5" style="margin-top: 0%">
         <h3 class="text-center">Formulir {{$status}} </h3>

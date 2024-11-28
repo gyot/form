@@ -22,24 +22,24 @@ class FormDataController extends Component
         $data_kegiatan = AgendaKegiatan::where('id',$id_kegiatan)->get();
         // dd($data_kegiatan);
         $nama_kegiatan=$data_kegiatan[0]->nama_kegiatan;
-         $rekening='0';
-         $pulsa='0';
+        $rekening='0';
+        $pulsa='0';
 
-         $path = public_path('assets/img/').$data_kegiatan[0]->flyer;
-        // dd(URL::to('/'));
-        //  if (File::exists($path)) {
-        //     // Konversi gambar ke format Base64
-        //     $imageData = base64_encode(File::get($path));
-    
-        //     // Tentukan tipe file
-        //     $mimeType = mime_content_type($path);
-        //     // Mengirimkan data ke view
-        //     // return view('show_image', compact());
-        //     return view('welcome',compact(['imageData', 'mimeType','nama_kegiatan','id_kegiatan','rekening','pulsa','status']));
+        // $path=public_path('storage/'.$data_kegiatan[0]->flyer);  
+        // if(file_exists($path)==false) {
+        //     $path = public_path('storage/flyers/').'logo_kemdikbud.png';
         // } else {
-        //     abort(404);
+        //     $path=public_path('storage/'.$data_kegiatan[0]->flyer);
         // }
-        // Konversi gambar ke format Base64
+
+        $flyerPath = public_path('storage/').$data_kegiatan[0]->flyer;
+        $defaultPath = public_path('storage/').'flyers/logo_kemdikbud.png';
+        
+        if (!file_exists($flyerPath)) {
+            $path = $defaultPath;
+        } else {
+            $path = $flyerPath;
+        }
         $imageData = base64_encode(File::get($path));
 
         // Tentukan tipe file

@@ -1,38 +1,18 @@
 @extends('livewire.home.master')
 
 @section('content')
-    <div class="container ">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahKegiatan">Tambah Kegiatan</button>
-        <br>
-        <div id="card-container" class="row daftar_kegitan">
-            <!-- Card 1 -->
-            {{-- @foreach ($agendaKegiatan as $item)
-            <div class="card">
-                <img class="card-img-top"
-                    src="{{asset('storage/'.$item->flyer)}}"
-                    alt="Card image" onerror="this.onerror=null; this.src='{{asset('img/logo_kemdikbud.png')}}'">
-                <div class="card-body">
-                    <p><b>{{$item->nama_kegiatan}}</b></p>
-                    <p class="card-text">
-                        <img src="{{ asset('img/icons/calendar.png') }}" alt="Calendar Icon">
-                        &nbsp; Tanggal {{formatTanggalSD($item->tanggal_mulai,$item->tanggal_selesai)}}
-                    </p>
-                    <p class="card-text">
-                        <img src="{{ asset('img/icons/map.png') }}" alt="Map Icon">
-                        &nbsp; Balai Penjaminan Mutu Pendidikan Provinsi Nusa Tenggara Barat
-                    </p>
-                    <a href="#" class="btn btn-primary">Detail</a>
-                </div>
-            </div>
-            @endforeach --}}
-        </div>
-        <!-- Pagination -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center mt-4" id="pagination">
-
-            </ul>
-        </nav>
+<button type="button" class="btn btn-primary " data-toggle="modal" data-target="#modalTambahKegiatan">Tambah Kegiatan</button>
+<br>
+<div class="container ">
+    <div id="card-container" class="row daftar_kegitan">
     </div>
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center mt-4" id="pagination">
+    
+        </ul>
+    </nav>
+</div>
 
     {{-- Modal input kegiatan --}}
     <!-- Modal -->

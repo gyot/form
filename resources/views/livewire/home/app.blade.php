@@ -20,40 +20,7 @@
     <link href="{{ asset('css/adminlte.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <style>
-        .daftar_kegitan {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
-        }
-
-        .card {
-            width: 400px;
-            border: 1px solid #ddd;
-            overflow: hidden;
-        }
-
-        .card-img-top {
-            width: 100%;
-            height: 400px;
-            object-fit: contain; /* Gambar proporsional sesuai orientasi */
-            background: linear-gradient(6deg, rgb(85, 150, 203) 0%, rgb(190, 208, 245) 48%);
-        }
-
-        .card-body {
-            text-align: left;
-        }
-
-        .card-text img {
-            width: 18px;
-            vertical-align: middle;
-            margin: 0px !important;
-            padding: 0px !important;
-        }
-
-        .btn-primary {
-            margin-top: 10px;
-        }
+        
 
         
 

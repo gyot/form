@@ -19,7 +19,8 @@ class AgendaKegiatan extends Model
         'panduan',
         'jenis_kegiatan',
         'kode_kegiatan',
-        'id_user'
+        'status',
+        'id_user',
     ];
 
     public function formData()

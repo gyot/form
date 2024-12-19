@@ -26,6 +26,7 @@ class CreateAgendaKegiatansTable extends Migration
             $table->string('panduan')->nullable();
             $table->string('jenis_kegiatan');
             $table->string('kode_kegiatan')->unique();
+            $table->string('status');
             $table->unsignedBigInteger('id_user');
             $table->timestamps();
         });

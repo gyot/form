@@ -165,4 +165,10 @@ class AgendaKegiatanController extends Component
 
         return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil dihapus.');
     }
+
+    public function detail($id){
+        $data=AgendaKegiatan::find($id);
+
+        return view('livewire.home.agenda.detail', compact(['data']));
+    }
 }

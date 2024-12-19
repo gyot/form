@@ -59,8 +59,8 @@
                 </div>
             </section>
             <!-- Main content -->
-            <section class="content">
-                @yield('content')
+            <section id="content" class="content">
+                {{-- @yield('content') --}}
             </section>
         </div>
 
@@ -148,6 +148,8 @@
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('js/adminlte.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             const BASE_URL = "{{ url('/') }}";
             const BASE_STORAGE_URL = "{{ asset('storage') }}";

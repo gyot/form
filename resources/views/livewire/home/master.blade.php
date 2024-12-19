@@ -18,18 +18,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($dashboard as $item)
-                                <tr>
-                                    <td>{{ $item->nomor }}</td>
-                                    <td>{{ date('d M Y H:i:s', strtotime($item->tanggal)) }}</td>
-                                    <td>{{ $item->pengguna }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">View</a>
-                                        <a href="#" class="btn btn-sm btn-info">Edit</a>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="confirmDelete('Hapus Data', '{{ $item->nomor }}')">Hapus</button>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
                         </tbody>
                     </table>
                 </div>

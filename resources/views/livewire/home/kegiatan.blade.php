@@ -1,9 +1,10 @@
-@extends('livewire.home.master')
+@extends('livewire.home.app')
 
 @section('content')
+{{-- <div id="content"></div> --}}
 <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#modalTambahKegiatan">Tambah Kegiatan</button>
 <br>
-<div class="container ">
+<div class="container ">    
     <div id="card-container" class="row daftar_kegitan">
     </div>
     <!-- Pagination -->
@@ -113,4 +114,7 @@
     </div>
 
     {{-- end Modal input kegiatan --}}
+@endsection
+@section('scripts')
+<script src="{{ asset('js/script.js')}}"></script>
 @endsection

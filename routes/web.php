@@ -49,5 +49,6 @@ Route::prefix('home')->group(function () {
     })->name('dashboard');
     Route::get('/kegiatan',[AgendaKegiatanController::class, 'index'])->name('agenda.index');
     Route::post('/tambah-kegiatan', [AgendaKegiatanController::class, 'store'])->name('kegiatan.store');
+    Route::get('/kegiatan/detail/{id}',[AgendaKegiatanController::class,'detail']);
 });
 

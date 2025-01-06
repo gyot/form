@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Dashboard</title>
+    <title>@yield('title')</title>
 
     <!-- Bootstrap CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,7 +47,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Dashboard</h1>
+                            <h1>@yield('title')</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -60,7 +60,7 @@
             </section>
             <!-- Main content -->
             <section id="content" class="content">
-                {{-- @yield('content') --}}
+                @yield('content')
             </section>
         </div>
 
@@ -155,6 +155,7 @@
             const BASE_STORAGE_URL = "{{ asset('storage') }}";
         </script>
         <script src="{{ asset('js/script.js')}}"></script>
+        @yield('add_script')
     </div>
 </body>
 

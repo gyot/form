@@ -12,7 +12,8 @@ class AgendaKegiatanController extends Component
     {
         $agendaKegiatan = AgendaKegiatan::orderBy('tanggal_mulai', 'desc')
         ->get();
-
+        $page='Data Kegiatan Tahun '.date('Y');
+        \View::share('page', $page);
         return view('livewire.home.kegiatan', compact('agendaKegiatan'));
     }
 
@@ -168,7 +169,16 @@ class AgendaKegiatanController extends Component
 
     public function detail($id){
         $data=AgendaKegiatan::find($id);
-
+        $page=$data->nama_kegiatan;
+        \View::share('page', $page);
         return view('livewire.home.agenda.detail', compact(['data']));
+    }
+
+    public function detailJson($id){
+        $data=AgendaKegiatan::find($id);
+        $page=$data->nama_kegiatan;
+        // \View::share('page', $page);
+        // return view('livewire.home.agenda.detail', compact(['data']));
+        return json_encode($data);
     }
 }

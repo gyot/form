@@ -1,14 +1,13 @@
 
-$(document).ready(function () {
+// $(document).ready(function () {  
     const itemsPerPage = 5;
     let currentPage = 1;
     let totalData = 0;
     let displayedIds = []; // Menyimpan ID dari card yang sudah ditampilkan
 
     // Fungsi untuk mengambil data dari API Laravel berdasarkan halaman
-    function fetchData(page) {
+    function fetchData(page) {        
         // console.log(BASE_URL+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`);
-        
         $.ajax({
             url: BASE_URL+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`, // Ganti dengan URL API Laravel Anda
             method: 'GET',
@@ -17,6 +16,7 @@ $(document).ready(function () {
                 // console.log(response);
                 
                 totalData = response.total; // Asumsi response.total adalah total data keseluruhan
+                
                 renderCards(response.data);
                 renderPagination(page, response.last_page); // Asumsi response.last_page adalah total halaman
             },
@@ -52,7 +52,7 @@ $(document).ready(function () {
                         <img src="${ BASE_URL }/img/icons/map.png" alt="Map Icon">
                         &nbsp; Balai Penjaminan Mutu Pendidikan Provinsi Nusa Tenggara Barat
                     </p>
-                    <a href="home/kegiatan/" class="btn btn-primary btn-detail" data-route="home/kegiatan/detail/${item.id}">Detail</a>
+                    <a href="kegiatan/detail/${item.id}" class="btn btn-primary btn-detail" data-route="home/kegiatan/detail/${item.id}">Detail</a>
 
                 </div>
             </div>
@@ -103,8 +103,8 @@ $(document).ready(function () {
     
         // Event submit form
         Swal.fire({
-            title: 'Submitting...',
-            text: 'Please wait while we process your data.',
+            title: 'Menyimpan...',
+            text: 'Mohon menunggu, data sedang diproses.',
             allowOutsideClick: false,
             didOpen: () => {
                 Swal.showLoading(); // Menampilkan animasi loading
@@ -131,8 +131,8 @@ $(document).ready(function () {
                 $('#modalTambahKegiatan').modal('hide');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Success!',
-                    text: 'Your data has been submitted.',
+                    title: 'Sukses!',
+                    text: 'Data anda telah tersimpan.',
                 });
                 // Refresh data pada tabel atau kartu
                 // fetchData(1); // Panggil fungsi untuk mengambil data baru
@@ -163,158 +163,128 @@ $(document).ready(function () {
         });
     });
 
-    // Ambil data pertama kali saat halaman pertama dimuat
-    fetchData(currentPage);
-});
-
-function formatTanggalSD(tanggalMulai, tanggalSelesai) {
-    const bulan = [
-        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-    ];
-
-    // Konversi string tanggal ke objek Date
-    const dateMulai = new Date(tanggalMulai);
-    const dateSelesai = new Date(tanggalSelesai);
-
-    // Ambil tanggal, bulan, dan tahun dari masing-masing Date
-    const dMulai = dateMulai.getDate();
-    const mMulai = dateMulai.getMonth();
-    const yMulai = dateMulai.getFullYear();
-
-    const dSelesai = dateSelesai.getDate();
-    const mSelesai = dateSelesai.getMonth();
-    const ySelesai = dateSelesai.getFullYear();
-
-    // Format output berdasarkan kondisi
-    if (tanggalMulai === tanggalSelesai) {
-        return `${dMulai} ${bulan[mMulai]} ${yMulai}`;
-    } else if (mMulai === mSelesai && yMulai === ySelesai) {
-        return `${dMulai} s.d. ${dSelesai} ${bulan[mMulai]} ${yMulai}`;
-    } else {
-        return `${dMulai} ${bulan[mMulai]} ${yMulai} s.d. ${dSelesai} ${bulan[mSelesai]} ${ySelesai}`;
+    function formatTanggalSD(tanggalMulai, tanggalSelesai) {
+        const bulan = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+    
+        // Konversi string tanggal ke objek Date
+        const dateMulai = new Date(tanggalMulai);
+        const dateSelesai = new Date(tanggalSelesai);
+    
+        // Ambil tanggal, bulan, dan tahun dari masing-masing Date
+        const dMulai = dateMulai.getDate();
+        const mMulai = dateMulai.getMonth();
+        const yMulai = dateMulai.getFullYear();
+    
+        const dSelesai = dateSelesai.getDate();
+        const mSelesai = dateSelesai.getMonth();
+        const ySelesai = dateSelesai.getFullYear();
+    
+        // Format output berdasarkan kondisi
+        if (tanggalMulai === tanggalSelesai) {
+            return `${dMulai} ${bulan[mMulai]} ${yMulai}`;
+        } else if (mMulai === mSelesai && yMulai === ySelesai) {
+            return `${dMulai} s.d. ${dSelesai} ${bulan[mMulai]} ${yMulai}`;
+        } else {
+            return `${dMulai} ${bulan[mMulai]} ${yMulai} s.d. ${dSelesai} ${bulan[mSelesai]} ${ySelesai}`;
+        }
     }
-}
 
-// $(document).on('click', '.btn-detail', function (e) {
-//     e.preventDefault();
+    // Ambil data pertama kali saat halaman pertama dimuat
+    function fetchDataDetail(id){
+        $.ajax({
+            url: BASE_URL+`/api/kegiatan/detail/json/`+id, // Ganti dengan URL API Laravel Anda
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log(BASE_URL+`/api/kegiatan/detail/json/`+id);
+                
+                // totalData = response.total; // Asumsi response.total adalah total data keseluruhan
+                const cardHtml = `
+                <img class="card-img-top"
+                    src="${BASE_STORAGE_URL}/${response.flyer}"
+                    alt="Card image" onerror="this.onerror=null; this.src='${BASE_URL}/img/logo_kemdikbud.png'">
+                    <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td><strong>Nama Kegiatan</strong></td>
+                            <td>: ${ response.nama_kegiatan }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TPK</strong></td>
+                            <td>: ${ response.tpk }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tanggal Mulai</strong></td>
+                            <td>: ${ formatTanggalSD(response.tanggal_mulai) }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tanggal Selesai</strong></td>
+                            <td>: ${ formatTanggalSD(response.tanggal_selesai) }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pola Kegiatan</strong></td>
+                            <td>: ${ response.pola_kegiatan }</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><strong>Materi</strong></td>
+                            <td>: <a href="${ response.materi }" class="btn btn-primary btn-sm" target="_blank">Lihat</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dokumentasi</strong></td>
+                            <td>: <a href="${ response.dokumentasi }" class="btn btn-secondary btn-sm" target="_blank">Lihat</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Panduan</strong></td>
+                            <td>: <a href="${ response.panduan }" class="btn btn-info btn-sm" target="_blank">Lihat</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jenis Kegiatan</strong></td>
+                            <td>: ${ response.jenis_kegiatan }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kode Kegiatan</strong></td>
+                            <td>: ${ response.kode_kegiatan }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pulsa</strong></td>
+                            <td>: ${ response.pulsa }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rekening</strong></td>
+                            <td>: ${ response.rekening }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Status</strong></td>
+                            <td>: <span class="badge ${ response.status == 'Aktif' ? 'bg-success' : 'bg-danger' }">${ response.status }</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tautan Form </strong></td>
+                            <td>: ${urlForm(response.id,response.nama_kegiatan)}</td>
+                        </tr>
+                    </tbody>
+                </table>`;
 
-//     const kegiatanId = $(this).data('id'); // Ambil ID kegiatan dari atribut data-id
-//     const detailUrl = `${BASE_URL}/api/kegiatan/${kegiatanId}`; // Endpoint detail API
+                $('#detail-container').append(cardHtml);
+            },
+            error: function (error) {
+                // console.log(BASE_URL+`/api/kegiatan/detail/json/`+id);
+                console.error("Gagal mengambil data:", error);
+            }
+        });
+    }
 
-//     // Tampilkan loading di modal sebelum data dimuat
-//     $('#detailContent').html('<p>Loading...</p>');
-//     $('#modalTambahKegiatan').modal('show');
-
-//     // Ambil data detail dari API
-//     // $.ajax({
-//     //     url: detailUrl,
-//     //     method: 'GET',
-//     //     dataType: 'json',
-//     //     success: function (response) {
-//     //         // Format data yang diterima untuk ditampilkan di modal
-//     //         const detailHtml = `
-//     //             <h5>${response.nama_kegiatan}</h5>
-//     //             <img src="${BASE_STORAGE_URL}/${response.flyer}" alt="Flyer" class="img-fluid mb-3" onerror="this.onerror=null; this.src='${BASE_URL}/img/logo_kemdikbud.png'">
-//     //             <p><b>Tanggal:</b> ${formatTanggalSD(response.tanggal_mulai, response.tanggal_selesai)}</p>
-//     //             <p><b>Lokasi:</b> Balai Penjaminan Mutu Pendidikan Provinsi Nusa Tenggara Barat</p>
-//     //             <p><b>Deskripsi:</b> ${response.deskripsi}</p>
-//     //         `;
-
-//     //         // Tampilkan data ke dalam modal
-//     //         $('#detailContent').html(detailHtml);
-//     //     },
-//     //     error: function (error) {
-//     //         console.error("Gagal memuat detail kegiatan:", error);
-//     //         $('#detailContent').html('<p>Gagal memuat data. Silakan coba lagi.</p>');
-//     //     }
-//     // });
+    function urlForm(id,judul) {
+        let slug = judul
+            .toLowerCase() // Ubah ke huruf kecil
+            .replace(/[^a-z0-9\s-]/g, '') // Hapus karakter selain huruf, angka, spasi, atau tanda hubung
+            .replace(/\s+/g, '-') // Ganti spasi dengan tanda hubung
+            .replace(/-+/g, '-'); // Ganti tanda hubung ganda dengan satu tanda hubung
+        return `Panitia : <a href='${BASE_URL}/form/${id}/panitia/${slug}' >${BASE_URL}/form/${id}/panitia/${slug}</a><br>
+                Peserta : <a href='${BASE_URL}/form/${id}/peserta/${slug}' >${BASE_URL}/form/${id}/peserta/${slug}</a><br>
+                Narasumber : <a href='${BASE_URL}/form/${id}/narasumber/${slug}' >${BASE_URL}/form/${id}/narasumber/${slug}</a><br>`;
+    }
 // });
-
-$(document).ready(function () {
-        
-    $(document).on('click', '.btn-detail', function (e) {
-        e.preventDefault(); // Mencegah tindakan default
-
-        const route = $(this).data('route'); // Ambil rute dari data-route
-        const baseUrl = BASE_URL.replace(/\/$/, ''); // Pastikan tidak ada trailing slash
-        const newUrl = baseUrl + '/' + route; // Buat URL baru
-        console.log(route);
-        
-        // Periksa apakah URL saat ini sudah sama
-        if (window.location.href !== newUrl) {
-            console.log(`Navigating to: ${newUrl}`);
-            $('#content').html('<p>Loading...</p>'); // Tampilkan loading
-
-            // Panggil data via AJAX
-            $.ajax({
-                url: newUrl,
-                method: 'GET',
-                success: function (response) {
-                    $('#content').html(response); // Tampilkan konten baru
-
-                    // Perbarui URL di browser
-                    history.pushState({ route: route }, '', newUrl);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Gagal memuat halaman:', error);
-                    $('#content').html('<p>Gagal memuat halaman. Silakan coba lagi.</p>');
-                }
-            });
-        } else {
-            console.log('URL tidak berubah.');
-        }
-    });
-
-    // Tangani navigasi melalui tombol Back/Forward
-    window.onpopstate = function (event) {
-        if (event.state && event.state.route) {
-            const route = event.state.route;
-            const url = BASE_URL + '/' + route;
-
-            console.log(`Navigating back to: ${url}`);
-
-            // Muat ulang konten sesuai URL
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function (response) {
-                    $('#content').html(response);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Gagal memuat halaman:', error);
-                    $('#content').html('<p>Gagal memuat halaman. Silakan coba lagi.</p>');
-                }
-            });
-        }
-    };
-});
-
-const route = window.location.href;; // Ambil rute dari data-route
-        const baseUrl = BASE_URL.replace(/\/$/, ''); // Pastikan tidak ada trailing slash
-        const newUrl = baseUrl + '/' + route; // Buat URL baru
-        console.log(route);
-        
-        // Periksa apakah URL saat ini sudah sama
-        if (window.location.href !== newUrl) {
-            console.log(`Navigating to: ${newUrl}`);
-            $('#content').html('<p>Loading...</p>'); // Tampilkan loading
-
-            // Panggil data via AJAX
-            $.ajax({
-                url: newUrl,
-                method: 'GET',
-                success: function (response) {
-                    $('#content').html(response); // Tampilkan konten baru
-
-                    // Perbarui URL di browser
-                    history.pushState({ route: route }, '', newUrl);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Gagal memuat halaman:', error);
-                    $('#content').html('<p>Gagal memuat halaman. Silakan coba lagi.</p>');
-                }
-            });
-        } else {
-            console.log('URL tidak berubah.');
-        }

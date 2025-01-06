@@ -26,6 +26,6 @@
     </div>
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
     <script src="{{ asset('js/jquery.min.js') }}"></script>
-@endpush
+@endpush --}}

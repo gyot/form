@@ -21,7 +21,7 @@ use App\Http\Livewire\AgendaKegiatanController;
 //     return view('welcome');
 // });
 // --------------------------------------------------------------------------
-Route::get('/{id_kegiatan}/{status}/{kegiatan}', [FormDataController::class, 'index']);
+Route::get('/form/{id_kegiatan}/{status}/{kegiatan}', [FormDataController::class, 'index']);
 // Route::get('/get-biodata/{id_kegiatan}', [PagesController::class, 'createWordDocument']);
 Route::post('/simpan_biodata', [FormDataController::class, 'store'])->name('form_data.store');
 // Route::middleware([

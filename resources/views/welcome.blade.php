@@ -89,7 +89,7 @@
         <img class="card-img-top" src="data:{{ $mimeType }};base64,{{ $imageData }}" alt="Image" alt="{{$nama_kegiatan}}" onerror="this.onerror=null; this.src='https://bpmpntb.kemdikbud.go.id/img/header_form.jpg'">
     </div>
     <div class="container mt-5" style="margin-top: 0%">
-        <h3 class="text-center">Formulir {{$status}} </h3>
+        <h3 class="text-center">FORMULIR BIODATA {{strtoupper($status)}} </h3>
         <h5 class="text-center">{{$nama_kegiatan}}</h5>
         <br><br>
         @if (session('success'))

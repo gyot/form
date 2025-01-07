@@ -90,7 +90,7 @@
     </div>
     <div class="container mt-5" style="margin-top: 0%">
         <h3 class="text-center">FORMULIR BIODATA {{strtoupper($status)}} </h3>
-        <h5 class="text-center">{{$nama_kegiatan}}</h5>
+        <h5 class="text-center">{{strtoupper($nama_kegiatan)}}</h5>
         <br><br>
         @if (session('success'))
             <div class="alert alert-success">

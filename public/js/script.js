@@ -206,67 +206,59 @@
                 <img class="card-img-top"
                     src="${BASE_STORAGE_URL}/${response.flyer}"
                     alt="Card image" onerror="this.onerror=null; this.src='${BASE_URL}/img/logo_kemdikbud.png'">
-                    <table class="table table-borderless">
-                    <tbody>
-                        <tr>
-                            <td><strong>Nama Kegiatan</strong></td>
-                            <td>: ${ response.nama_kegiatan }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>TPK</strong></td>
-                            <td>: ${ response.tpk }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tanggal Mulai</strong></td>
-                            <td>: ${ formatTanggalSD(response.tanggal_mulai) }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tanggal Selesai</strong></td>
-                            <td>: ${ formatTanggalSD(response.tanggal_selesai) }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Pola Kegiatan</strong></td>
-                            <td>: ${ response.pola_kegiatan }</td>
-                        </tr>
-                        
-                        <tr>
-                            <td><strong>Materi</strong></td>
-                            <td>: <a href="${ response.materi }" class="btn btn-primary btn-sm" target="_blank">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Dokumentasi</strong></td>
-                            <td>: <a href="${ response.dokumentasi }" class="btn btn-secondary btn-sm" target="_blank">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Panduan</strong></td>
-                            <td>: <a href="${ response.panduan }" class="btn btn-info btn-sm" target="_blank">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Jenis Kegiatan</strong></td>
-                            <td>: ${ response.jenis_kegiatan }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Kode Kegiatan</strong></td>
-                            <td>: ${ response.kode_kegiatan }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Pulsa</strong></td>
-                            <td>: ${ response.pulsa }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rekening</strong></td>
-                            <td>: ${ response.rekening }</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Status</strong></td>
-                            <td>: <span class="badge ${ response.status == 'Aktif' ? 'bg-success' : 'bg-danger' }">${ response.status }</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tautan Form </strong></td>
-                            <td>: ${urlForm(response.id,response.nama_kegiatan)}</td>
-                        </tr>
-                    </tbody>
-                </table>`;
+                    <table class="table table-borderless w-100" style="table-layout: fixed;">
+            <tbody>
+                <tr>
+                    <td class="col-4"><strong>Nama Kegiatan</strong></td>
+                    <td class="col-4">: ${response.nama_kegiatan}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>TPK</strong></td>
+                    <td class="col-4">: ${response.tpk}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Tanggal</strong></td>
+                    <td class="col-4">: ${formatTanggalSD(response.tanggal_mulai, response.tanggal_selesai)}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Pola Kegiatan</strong></td>
+                    <td class="col-4">: ${response.pola_kegiatan}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Materi</strong></td>
+                    <td class="col-4">: <a href="${response.materi}" class="btn btn-primary btn-sm" target="_blank">Lihat</a></td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Dokumentasi</strong></td>
+                    <td class="col-4">: <a href="${response.dokumentasi}" class="btn btn-secondary btn-sm" target="_blank">Lihat</a></td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Panduan</strong></td>
+                    <td class="col-4">: <a href="${response.panduan}" class="btn btn-info btn-sm" target="_blank">Lihat</a></td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Jenis Kegiatan</strong></td>
+                    <td class="col-4">: ${response.jenis_kegiatan}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Kode Kegiatan</strong></td>
+                    <td class="col-4">: ${response.kode_kegiatan}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Pulsa</strong></td>
+                    <td class="col-4">: ${response.pulsa}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Rekening</strong></td>
+                    <td class="col-4">: ${response.rekening}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Status</strong></td>
+                    <td class="col-4">: <span class="badge ${response.status == 'Aktif' ? 'bg-success' : 'bg-danger'}">${response.status}</span></td>
+                </tr>
+                <tr><td colspan="2"> <strong>Tautan Form</strong><br>${urlForm(response.id, response.nama_kegiatan)}</td>
+                </tr>
+            </tbody>`;
 
                 $('#detail-container').append(cardHtml);
             },
@@ -283,7 +275,7 @@
             .replace(/[^a-z0-9\s-]/g, '') // Hapus karakter selain huruf, angka, spasi, atau tanda hubung
             .replace(/\s+/g, '-') // Ganti spasi dengan tanda hubung
             .replace(/-+/g, '-'); // Ganti tanda hubung ganda dengan satu tanda hubung
-        return `Panitia : <a href='${BASE_URL}/form/${id}/panitia/${slug}' >${BASE_URL}/form/${id}/panitia/${slug}</a><br>
+        return `<br>Panitia : <a href='${BASE_URL}/form/${id}/panitia/${slug}' >${BASE_URL}/form/${id}/panitia/${slug}</a><br>
                 Peserta : <a href='${BASE_URL}/form/${id}/peserta/${slug}' >${BASE_URL}/form/${id}/peserta/${slug}</a><br>
                 Narasumber : <a href='${BASE_URL}/form/${id}/narasumber/${slug}' >${BASE_URL}/form/${id}/narasumber/${slug}</a><br>`;
     }

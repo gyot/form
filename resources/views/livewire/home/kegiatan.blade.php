@@ -89,14 +89,27 @@
                         </div>
 
                         <!-- Input Puls -->
+                        <label>Panitia</label>
                         <div class="form-group">
-                            <label for="pulsa">Pulsa</label>
+                            <label for="pulsa" class="font-weight-normal">Pulsa</label>
                             <input type="checkbox" value="1" id="pulsa" name="pulsa">
+                            <label for="rekening" class="font-weight-normal">Rekening</label>
+                            <input type="checkbox" value="1" id="rekening" name="rekening">
                         </div>
 
-                        <!-- Input Rekening -->
+                        <label>Narasumber</label>
                         <div class="form-group">
-                            <label for="rekening">Rekening</label>
+                            <label for="pulsa" class="font-weight-normal">Pulsa</label>
+                            <input type="checkbox" value="1" id="pulsa" name="pulsa">
+                            <label for="rekening" class="font-weight-normal">Rekening</label>
+                            <input type="checkbox" value="1" id="rekening" name="rekening">
+                        </div>
+
+                        <label>Peserta</label>
+                        <div class="form-group">
+                            <label for="pulsa" class="font-weight-normal">Pulsa</label>
+                            <input type="checkbox" value="1" id="pulsa" name="pulsa">
+                            <label for="rekening" class="font-weight-normal">Rekening</label>
                             <input type="checkbox" value="1" id="rekening" name="rekening">
                         </div>
 

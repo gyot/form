@@ -22,7 +22,7 @@ use App\Http\Livewire\AgendaKegiatanController;
 // });
 // --------------------------------------------------------------------------
 Route::get('/form/{id_kegiatan}/{status}/{kegiatan}', [FormDataController::class, 'index']);
-// Route::get('/get-biodata/{id_kegiatan}', [PagesController::class, 'createWordDocument']);
+Route::get('/get-biodata/{id_kegiatan}', [PagesController::class, 'createWordDocument']);
 Route::post('/simpan_biodata', [FormDataController::class, 'store'])->name('form_data.store');
 // Route::middleware([
 //     'auth:sanctum',
@@ -34,6 +34,9 @@ Route::post('/simpan_biodata', [FormDataController::class, 'store'])->name('form
 //     })->name('dashboard');
 //     Route::get('/kegiatan',[HomeController::class, 'kegiatan']);
 // });
+
+Route::get('/generate-docx', [PagesController::class, 'tes_tabel']);
+
 
 Route::middleware(['auth'])->prefix('home')->group(function () {
     // Route::get('/dashboard', function () {

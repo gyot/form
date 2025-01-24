@@ -9,6 +9,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use File;
 use App\Models\FormData;
 use DB;
@@ -66,7 +67,6 @@ class PagesController extends Component
                 $template->setImageValue('ttd', [
                     'path' => $pathGambar,
                     'width' => 200,
-                    'height' => 150,
                     'ratio' => true, // Menjaga rasio aspek
                 ]);
             } else {
@@ -79,10 +79,9 @@ class PagesController extends Component
             $filePath = $tempFolder . '/' . $fileName;
             $template->saveAs($filePath);
         }
-
-        // $this->gabungkanDokumen($tempFolder . '/*.docx', public_path('word_documents'));
+        return $this->createZip();
         // Gabungkan dokumen
-        return $this->gabungkanDokumen($tempFolder . '/*.docx', public_path('word_documents'));
+        // return $this->gabungkanDokumen($tempFolder . '/*.docx', public_path('word_documents'));
     }
 
 
@@ -217,4 +216,79 @@ class PagesController extends Component
     function kegiatan(){
         return view('layouts.kegiatan.index');
     }
+
+    public function tes_tabel()
+    {
+        $dataPeserta = DB::table('biodata')->where('id_kegiatan', 1)->get();
+        // Membuat instance PHPWord
+        $phpWord = new PhpWord();
+
+        // Menambahkan section pertama
+        $section1 = $phpWord->addSection();
+        $section1->addText('PRESENSI PESERTA', ['bold' => true, 'size' => 14,'alignment' => Jc::CENTER]);
+        // $section1->addText('Nama Kegiatan : '.$dataPeserta[0]->nama_kegiatan, ['bold' => true, 'size' => 12]);
+        // $section1->addText('Tanggal : '.$dataPeserta[0]->tanggal_kegiatan, ['bold' => true, 'size' => 12]);
+        // Membuat tabel di halaman pertama
+        $table = $section1->addTable();
+        $table->addRow();
+        $table->addCell(1500)->addText('Nama Kegiatan');
+        $table->addCell(200)->addText(':');
+        $table->addCell(7000)->addText($dataPeserta[0]->nama_kegiatan);
+        $table->addRow();
+        $table->addCell(1500)->addText('Nama Kegiatan');
+        $table->addCell(200)->addText(':');
+        $table->addCell(7000)->addText($dataPeserta[0]->tpk);
+        $table->addRow();
+        $table->addCell(1500)->addText('Tanggal');
+        $table->addCell(200)->addText(':');
+        $table->addCell(7000)->addText($this->formatTanggalSD($dataPeserta[0]->tanggal_mulai, $dataPeserta[0]->tanggal_selesai));
+        $section1->addText('', ['bold' => true, 'size' => 14]);
+
+        $tableStyle = array(
+            'borderColor' => '000000',
+            'borderSize'  => 6,
+        );
+        $firstRowStyle = array('bgColor' => '000000');
+        $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
+        $table1 = $section1->addTable('myTable');
+        $table1->addRow();
+        $table1->addCell(500)->addText('No');
+        $table1->addCell(3000)->addText('Nama');
+        $table1->addCell(3000)->addText('Instansi');
+        $table1->addCell(3000)->addText('Jabatan');
+        $table1->addCell(3000)->addText('TTD');
+
+        foreach ($dataPeserta as $index=>$row) {
+            $table1->addRow();
+            $table1->addCell(500)->addText((int)$index+1);
+            $table1->addCell(3000)->addText($row->nama);
+            $table1->addCell(3000)->addText($row->nama_instansi);
+            $table1->addCell(3000)->addText($row->jabatan);
+            $pathGambar = public_path('storage').'/'.$row->tanda_tangan_path;
+            if (file_exists($pathGambar)) {
+                // Tambahkan gambar jika file ada
+                $table1->addCell(3000)->addImage($pathGambar, [
+                    'width' => 50,  // Lebar gambar
+                    'align' => 'center', // Penyelarasan
+                ]);
+            } else {
+                // Tambahkan teks jika gambar tidak ditemukan
+                $table1->addCell(5000)->addText('Tanda tangan tidak tersedia');
+            }
+        }
+
+        
+
+        // Menyimpan file DOCX
+        $fileName = 'tabel_data_2_halaman.docx';
+        $filePath = storage_path($fileName);
+
+        $writer = IOFactory::createWriter($phpWord, 'Word2007');
+        $writer->save($filePath);
+
+        // Mengunduh file ke browser
+        return response()->download($filePath)->deleteFileAfterSend(true);
+    }
+
+
 }

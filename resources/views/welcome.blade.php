@@ -256,7 +256,7 @@
                     <p style="color:red">* {{ $errors->first('no_hp') }}</p>
                     @endif
                 </div>
-                @if ($pulsa=="true")
+                @if ($pulsa==1)
                 <div class="col-md-6 mb-3">
                     <label for="provider">Provider</label>
                     <input type="text" @if ($errors->has('provider')) style="border-color:red" @endif class="form-control" id="provider" name="provider" value="{{old('provider')}}"

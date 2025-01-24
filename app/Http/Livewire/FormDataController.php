@@ -19,11 +19,86 @@ class FormDataController extends Component
      * Menyimpan data form.
      */
     public function index($id_kegiatan,$status,$slug_kegiatan) {
+        
         $data_kegiatan = AgendaKegiatan::where('id',$id_kegiatan)->get();
-        // dd($data_kegiatan);
+        if ($data_kegiatan[0]->status=='Tidak Aktif') {
+            # code...
+            return abort(404);
+        }
+        $flyerPath = public_path('storage/').$data_kegiatan[0]->flyer;
+        $defaultPath = public_path('storage/').'flyers/logo_kemdikbud.png';
+        
         $nama_kegiatan=$data_kegiatan[0]->nama_kegiatan;
         $rekening='0';
         $pulsa='0';
+
+        if (!file_exists($flyerPath)) {
+            $path = $defaultPath;
+        } else {
+            $path = $flyerPath;
+        }
+        $imageData = base64_encode(File::get($path));
+        
+        // Tentukan tipe file
+        $mimeType = mime_content_type($path);
+
+        if ($status == 'panitia') {
+            # code...
+            if($data_kegiatan[0]->h_panitia==0){
+                $rekening=0;
+                $pulsa=0;
+            }
+            else if($data_kegiatan[0]->h_panitia==1){
+                $rekening=0;
+                $pulsa=1;
+            }else if($data_kegiatan[0]->h_panitia==2){
+                $rekening=1;
+                $pulsa=0;
+            }else if ($data_kegiatan[0]->h_panitia==3) {
+                $rekening=1;
+                $pulsa=1;
+            }
+
+            
+        } else if ($status == 'peserta') {
+            # code...
+            if($data_kegiatan[0]->h_peserta==0){
+                $rekening=0;
+                $pulsa=0;
+            }
+            else if($data_kegiatan[0]->h_peserta==1){
+                $rekening=0;
+                $pulsa=1;
+            }else if($data_kegiatan[0]->h_peserta==2){
+                $rekening=1;
+                $pulsa=0;
+            }else if ($data_kegiatan[0]->h_peserta==3) {
+                $rekening=1;
+                $pulsa=1;
+            }
+
+            
+        } else if ($status == 'narasumber'){
+            # code...
+            if($data_kegiatan[0]->h_narasumber==0){
+                $rekening=0;
+                $pulsa=0;
+            }
+            else if($data_kegiatan[0]->h_narasumber==1){
+                $rekening=0;
+                $pulsa=1;
+            }else if($data_kegiatan[0]->h_narasumber==2){
+                $rekening=1;
+                $pulsa=0;
+            }else if ($data_kegiatan[0]->h_narasumber==3) {
+                $rekening=1;
+                $pulsa=1;
+            }
+        }else {
+            # code...
+            abort(404);
+        }
+        // dd($data_kegiatan);
 
         // $path=public_path('storage/'.$data_kegiatan[0]->flyer);  
         // if(file_exists($path)==false) {
@@ -32,19 +107,6 @@ class FormDataController extends Component
         //     $path=public_path('storage/'.$data_kegiatan[0]->flyer);
         // }
 
-        $flyerPath = public_path('storage/').$data_kegiatan[0]->flyer;
-        $defaultPath = public_path('storage/').'flyers/logo_kemdikbud.png';
-        
-        if (!file_exists($flyerPath)) {
-            $path = $defaultPath;
-        } else {
-            $path = $flyerPath;
-        }
-        $imageData = base64_encode(File::get($path));
-
-        // Tentukan tipe file
-        $mimeType = mime_content_type($path);
-        
         // Mengirimkan data ke view
         return view('welcome',compact(['imageData', 'mimeType','nama_kegiatan','id_kegiatan','rekening','pulsa','status']));     
 

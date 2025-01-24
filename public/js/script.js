@@ -42,7 +42,9 @@
                 <img class="card-img-top"
                     src="${BASE_STORAGE_URL}/${item.flyer}"
                     alt="Card image" onerror="this.onerror=null; this.src='${BASE_URL}/img/logo_kemdikbud.png'">
-                <div class="card-body">
+                    <div class="card-body">
+                    <a href="kegiatan/detail/${item.id}" class="btn btn-primary btn-detail" data-route="home/kegiatan/detail/${item.id}">Detail</a>
+                    <a href="#" class="btn btn-primary btn-danger" onclick="alert('mati')">Non Aktifkan</a>
                     <p><b>${item.nama_kegiatan}</b></p>
                     <p class="card-text">
                         <img src="${ BASE_URL }/img/icons/calendar.png" alt="Calendar Icon">
@@ -52,8 +54,6 @@
                         <img src="${ BASE_URL }/img/icons/map.png" alt="Map Icon">
                         &nbsp; Balai Penjaminan Mutu Pendidikan Provinsi Nusa Tenggara Barat
                     </p>
-                    <a href="kegiatan/detail/${item.id}" class="btn btn-primary btn-detail" data-route="home/kegiatan/detail/${item.id}">Detail</a>
-
                 </div>
             </div>
             `;
@@ -129,10 +129,12 @@
 
                 // Tutup modal
                 $('#modalTambahKegiatan').modal('hide');
+                console.log(response);
+                
                 Swal.fire({
                     icon: 'success',
                     title: 'Sukses!',
-                    text: 'Data anda telah tersimpan.',
+                    text: response,
                 });
                 // Refresh data pada tabel atau kartu
                 // fetchData(1); // Panggil fungsi untuk mengambil data baru
@@ -199,8 +201,42 @@
             method: 'GET',
             dataType: 'json',
             success: function (response) {
+                let h_peserta='';
+                let h_panitia='';
+                let h_narasumber='';
                 console.log(BASE_URL+`/api/kegiatan/detail/json/`+id);
-                
+                if(response.h_peserta==0){
+                    h_peserta='tidak ada';
+                }
+                else if(response.h_peserta==1){
+                    h_peserta='Pulsa';
+                }else if(response.h_peserta==2){
+                    h_peserta='Rekening';
+                }else if (response.h_peserta==3) {
+                    h_peserta='Pulsa & Rekening';
+                }
+
+                if(response.h_panitia==0){
+                    h_panitia='tidak ada';
+                }
+                else if(response.h_panitia==1){
+                    h_panitia='Pulsa';
+                }else if(response.h_panitia==2){
+                    h_panitia='Rekening';
+                }else if (response.h_panitia==3) {
+                    h_panitia='Pulsa & Rekening';
+                }
+
+                if(response.h_narasumber==0){
+                    h_narasumber='tidak ada';
+                }
+                else if(response.h_narasumber==1){
+                    h_narasumber='Pulsa';
+                }else if(response.h_narasumber==2){
+                    h_narasumber='Rekening';
+                }else if (response.h_narasumber==3) {
+                    h_narasumber='Pulsa & Rekening';
+                }
                 // totalData = response.total; // Asumsi response.total adalah total data keseluruhan
                 const cardHtml = `
                 <img class="card-img-top"
@@ -245,18 +281,26 @@
                     <td class="col-4">: ${response.kode_kegiatan}</td>
                 </tr>
                 <tr>
-                    <td class="col-4"><strong>Pulsa</strong></td>
-                    <td class="col-4">: ${response.pulsa}</td>
+                    <td class="col-4"><strong>Honor Peserta</strong></td>
+                    <td class="col-4">: ${h_peserta}</td>
                 </tr>
                 <tr>
-                    <td class="col-4"><strong>Rekening</strong></td>
-                    <td class="col-4">: ${response.rekening}</td>
+                    <td class="col-4"><strong>Honor Panitia</strong></td>
+                    <td class="col-4">: ${h_panitia}</td>
+                </tr>
+                <tr>
+                    <td class="col-4"><strong>Honor Narasumber</strong></td>
+                    <td class="col-4">: ${h_narasumber}</td>
                 </tr>
                 <tr>
                     <td class="col-4"><strong>Status</strong></td>
                     <td class="col-4">: <span class="badge ${response.status == 'Aktif' ? 'bg-success' : 'bg-danger'}">${response.status}</span></td>
                 </tr>
-                <tr><td colspan="2"> <strong>Tautan Form</strong><br>${urlForm(response.id, response.nama_kegiatan)}</td>
+                <tr>
+                    <td colspan="2"> <strong>Tautan Form</strong><br>${urlForm(response.id, response.nama_kegiatan)}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalUbahKegiatan">Edit <i class="fa fa-pencil-square" aria-hidden="true"></i></button></td>
                 </tr>
             </tbody>`;
 

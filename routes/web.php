@@ -38,13 +38,13 @@ Route::post('/simpan_biodata', [FormDataController::class, 'store'])->name('form
 Route::get('/generate-docx', [PagesController::class, 'tes_tabel']);
 
 
-Route::middleware(['auth'])->prefix('home')->group(function () {
-    // Route::get('/dashboard', function () {
-    //     return view('dashboard');
-    // })->name('dashboard');
-    // Route::get('/kegiatan',[AgendaKegiatanController::class, 'index'])->name('agenda.index');
-    // Route::post('/tambah-kegiatan', [AgendaKegiatanController::class, 'store'])->name('kegiatan.store');
-});
+// Route::middleware(['auth'])->prefix('home')->group(function () {
+//     // Route::get('/dashboard', function () {
+//     //     return view('dashboard');
+//     // })->name('dashboard');
+//     // Route::get('/kegiatan',[AgendaKegiatanController::class, 'index'])->name('agenda.index');
+//     // Route::post('/tambah-kegiatan', [AgendaKegiatanController::class, 'store'])->name('kegiatan.store');
+// });
 
 Route::prefix('home')->group(function () {
     Route::get('/dashboard', function () {

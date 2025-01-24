@@ -45,8 +45,12 @@ class AgendaKegiatanController extends Component
 
     public function store(Request $request)
     {
-        $pulsa=$request->pulsa == 1 ? 1 : 0;
-        $rekening=$request->rekening == 1 ? 1 : 0;
+        $pa_pulsa=$request->pa_pulsa == 1 ? 1 : 0;
+        $pa_rekening=$request->pa_rekening == 2 ? 2 : 0;
+        $na_pulsa=$request->na_pulsa == 1 ? 1 : 0;
+        $na_rekening=$request->na_rekening == 2 ? 2 : 0;
+        $pe_pulsa=$request->pe_pulsa == 1 ? 1 : 0;
+        $pe_rekening=$request->pe_rekening == 2 ? 2 : 0;
         $kodeKegiatan=$this->generateRandomString();
         $flyer=$request->flyer == null ? 'tidak ada':$request->flyer;
         $request->validate([
@@ -60,10 +64,18 @@ class AgendaKegiatanController extends Component
             'dokumentasi' => 'nullable|url',
             'panduan' => 'nullable|url',
             'jenis_kegiatan' => 'required|string|max:255',
-            'pulsa' => 'nullable|boolean',
-            'rekening' => 'nullable|boolean',
+            'pa_pulsa' => 'nullable|integer',
+            'pa_rekening' => 'nullable|integer',
+            'na_pulsa' => 'nullable|integer',
+            'na_rekening' => 'nullable|integer',
+            'pe_pulsa' => 'nullable|integer',
+            'pe_rekening' => 'nullable|integer',
+            'h_narasumber' => 'nullable|integer',
             'id_user' => 'required|exists:users,id',
         ]);
+        $h_peserta=(int)$request->pe_pulsa+(int)$request->pe_rekening;
+        $h_panitia=(int)$request->pa_pulsa+(int)$request->pa_rekening;
+        $h_narasumber=(int)$request->na_pulsa+(int)$request->na_rekening;
         $data = array(
             'nama_kegiatan' => $request->nama_kegiatan,
             'tpk' => $request->tpk,
@@ -75,11 +87,10 @@ class AgendaKegiatanController extends Component
             'dokumentasi' => $request->dokumentasi,
             'panduan' => $request->panduan,
             'jenis_kegiatan' => $request->jenis_kegiatan,
-            'pulsa' => $request->pulsa,
-            'rekening' => $request->rekening,
+            'h_peserta' => $h_peserta,
+            'h_panitia' => $h_panitia,
+            'h_narasumber' => $h_narasumber,
             'id_user' => $request->id_user,
-            'pulsa' => $pulsa,
-            'rekening' => $rekening,
             'kode_kegiatan' => $kodeKegiatan
         );
 
@@ -90,9 +101,15 @@ class AgendaKegiatanController extends Component
             $data['flyer'] = $request->file('flyer')->store('flyers', 'public');
         }
 
-        AgendaKegiatan::create($data);
-
-        return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil ditambahkan.');
+        $simpan=AgendaKegiatan::create($data);
+        if ($simpan) {
+            # code...
+            return json_encode('Kegiatan berhasil ditambahkan.');
+        }else {
+            # code...
+            return json_encode($simpan);
+        }
+        // return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil ditambahkan.');
     }
 
     private function generateRandomString($length = 6) {

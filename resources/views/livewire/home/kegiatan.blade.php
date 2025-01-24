@@ -87,30 +87,34 @@
                             <label for="jenis_kegiatan">Jenis Kegiatan</label>
                             <input type="text" class="form-control" id="jenis_kegiatan" name="jenis_kegiatan" required>
                         </div>
-
+<!-- Input Puls -->
+                        {{-- <div class="form-group">
+                            <label for="pulsa">Pulsa</label>
+                            <input type="checkbox" value="1" id="pulsa" name="pulsa">
+                        </div> --}}
                         <!-- Input Puls -->
                         <label>Panitia</label>
                         <div class="form-group">
                             <label for="pulsa" class="font-weight-normal">Pulsa</label>
-                            <input type="checkbox" value="1" id="pulsa" name="pulsa">
+                            <input type="checkbox" value="1" id="pa_pulsa" name="pa_pulsa">
                             <label for="rekening" class="font-weight-normal">Rekening</label>
-                            <input type="checkbox" value="1" id="rekening" name="rekening">
+                            <input type="checkbox" value="2" id="pa_rekening" name="pa_rekening">
                         </div>
 
                         <label>Narasumber</label>
                         <div class="form-group">
                             <label for="pulsa" class="font-weight-normal">Pulsa</label>
-                            <input type="checkbox" value="1" id="pulsa" name="pulsa">
+                            <input type="checkbox" value="1" id="na_pulsa" name="na_pulsa">
                             <label for="rekening" class="font-weight-normal">Rekening</label>
-                            <input type="checkbox" value="1" id="rekening" name="rekening">
+                            <input type="checkbox" value="2" id="na_rekening" name="na_rekening">
                         </div>
 
                         <label>Peserta</label>
                         <div class="form-group">
                             <label for="pulsa" class="font-weight-normal">Pulsa</label>
-                            <input type="checkbox" value="1" id="pulsa" name="pulsa">
+                            <input type="checkbox" value="1" id="pe_pulsa" name="pe_pulsa">
                             <label for="rekening" class="font-weight-normal">Rekening</label>
-                            <input type="checkbox" value="1" id="rekening" name="rekening">
+                            <input type="checkbox" value="2" id="pe_rekening" name="pe_rekening">
                         </div>
 
                         <!-- Input ID User -->

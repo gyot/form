@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2024 at 09:55 AM
+-- Generation Time: Jan 24, 2025 at 09:15 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.13
 
@@ -40,8 +40,10 @@ CREATE TABLE `agenda_kegiatans` (
   `panduan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `jenis_kegiatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `kode_kegiatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pulsa` tinyint(1) DEFAULT NULL,
-  `rekening` tinyint(1) DEFAULT NULL,
+  `h_peserta` tinyint(1) DEFAULT NULL,
+  `h_panitia` tinyint(1) DEFAULT NULL,
+  `h_narasumber` tinyint(1) DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_user` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -51,8 +53,9 @@ CREATE TABLE `agenda_kegiatans` (
 -- Dumping data for table `agenda_kegiatans`
 --
 
-INSERT INTO `agenda_kegiatans` (`id`, `nama_kegiatan`, `tpk`, `tanggal_mulai`, `tanggal_selesai`, `pola_kegiatan`, `flyer`, `materi`, `dokumentasi`, `panduan`, `jenis_kegiatan`, `kode_kegiatan`, `pulsa`, `rekening`, `id_user`, `created_at`, `updated_at`) VALUES
-(1, 'Advokasi Pemberdayaan Sekolah Penggerak PSP Menjadi Penggerak Komunitas Belajar PSP-UPT1', 'BPMP Provinsi NTB', '2024-11-11', '2024-11-12', '32JP', 'Reviu_Konten_Program_Prioritas_Tahun_2024_(Header_Google_Classroom).jpg', '#', '#', '#', 'Workshop', '1231231231', 0, 0, 1, NULL, NULL);
+INSERT INTO `agenda_kegiatans` (`id`, `nama_kegiatan`, `tpk`, `tanggal_mulai`, `tanggal_selesai`, `pola_kegiatan`, `flyer`, `materi`, `dokumentasi`, `panduan`, `jenis_kegiatan`, `kode_kegiatan`, `h_peserta`, `h_panitia`, `h_narasumber`, `status`, `id_user`, `created_at`, `updated_at`) VALUES
+(1, 'Advokasi Pemberdayaan Sekolah Penggerak PSP Menjadi Penggerak Komunitas Belajar PSP-UPT1', 'BPMP Provinsi NTB', '2024-11-11', '2024-11-12', '32JP', 'flyers/Reviu_Konten_Program_Prioritas_Tahun_2024_(Header_Google_Classroom).jpg', '#', '#', '#', 'Workshop', '1231231231', 0, 0, 1, NULL, 1, NULL, NULL),
+(39, 'Percobaan Kegiatan Mungkin Terakhir', 'Hotel Montana Premier', '2025-02-01', '2025-02-08', '100JP', 'flyers/iPOlmcSP5LKpcuUVCaASrnKiCVNUpQDWnACehmbB.jpg', NULL, NULL, NULL, 'Bimbingan Teknis', '6nS6AY', 3, 0, 1, 'Aktif', 1, '2025-01-23 23:43:09', '2025-01-23 23:43:09');
 
 -- --------------------------------------------------------
 
@@ -264,7 +267,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('Qg3BBmSMlYJBq1Q9c5Z34mZt5gErbhP6y0y9Wibw', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMURXVmYxWlZGV1MyWkxoZkNucVBVS3QzbVR3ekxPTkdiU0p5OG1EbSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9ob21lL2tlZ2lhdGFuIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyYSQxMiR5aGdSWWtTQWcxSU5GalBVZEY1eXZPQjI2TUcuLjJmNnRobUIwV2RocWpELk94NERWcG1paSI7fQ==', 1732609832);
+('L3zV0VzDT0c1jybHiav2lqvvc0EicMGKTHg9CXTk', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiWllaV2hJNExPaUFualA3V0VUUXlDakJBU01mYW5POElVdnV6cDFIeSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ob21lL2tlZ2lhdGFuL2RldGFpbC8zOSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1737706421);
 
 -- --------------------------------------------------------
 
@@ -383,7 +386,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `agenda_kegiatans`
 --
 ALTER TABLE `agenda_kegiatans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `bio_data`

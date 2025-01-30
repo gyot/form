@@ -35,7 +35,12 @@
         data.forEach((item) => {
             const isNewCard = !displayedIds.includes(item.id); // Cek apakah card ini baru
             const imageUrl = item.image_url ? item.image_url : 'https://via.placeholder.com/300x200'; // URL gambar, gunakan placeholder jika tidak ada gambar
-
+            let btn='';
+            if (item.status=='Aktif') {
+                btn=`<button class="btn btn-primary btn-success" onclick="statusKegiatan(${item.id},this)">${item.status}</button>`;
+            } else {
+                btn=`<button class="btn btn-primary btn-danger" onclick="statusKegiatan(${item.id},this)">${item.status}</button>`;
+            }
             const cardHtml = `
 
             <div class="card ${isNewCard ? 'new-card' : ''}">
@@ -44,7 +49,7 @@
                     alt="Card image" onerror="this.onerror=null; this.src='${BASE_URL}/img/logo_kemdikbud.png'">
                     <div class="card-body">
                     <a href="kegiatan/detail/${item.id}" class="btn btn-primary btn-detail" data-route="home/kegiatan/detail/${item.id}">Detail</a>
-                    <a href="#" class="btn btn-primary btn-danger" onclick="alert('mati')">Non Aktifkan</a>
+                    ${btn}
                     <p><b>${item.nama_kegiatan}</b></p>
                     <p class="card-text">
                         <img src="${ BASE_URL }/img/icons/calendar.png" alt="Calendar Icon">
@@ -91,6 +96,20 @@
         });
     }
 
+    function statusKegiatan(id,params) {
+        $.get("/kegiatan/ubah/status/"+id,
+            function (data, textStatus, jqXHR) {
+                if (data.status=='Aktif') {
+                    $(params).css('background-color', 'green');
+                    
+                } else {
+                    $(params).css('background-color', 'red');
+                }
+                $(params).text(data.status);
+            },
+            "json"
+        );
+    }
     // Fungsi untuk menambahkan data baru
     $('#formTambahKegiatan').on('submit', function (e) {
         e.preventDefault();

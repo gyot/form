@@ -198,4 +198,20 @@ class AgendaKegiatanController extends Component
         // return view('livewire.home.agenda.detail', compact(['data']));
         return json_encode($data);
     }
+
+    function ubahstatus($id) {
+        $data=AgendaKegiatan::find($id);
+        if ($data->status=='Aktif') {
+            # code...
+            $data->status = 'Non Aktif';
+        } else {
+            # code...
+            $data->status = 'Aktif';
+        }
+        $data->save();
+        
+        // \View::share('page', $page);
+        // return view('livewire.home.agenda.detail', compact(['data']));
+        return json_encode($data);
+    }
 }

@@ -21,7 +21,7 @@ class FormDataController extends Component
     public function index($id_kegiatan,$status,$slug_kegiatan) {
         
         $data_kegiatan = AgendaKegiatan::where('id',$id_kegiatan)->get();
-        if ($data_kegiatan[0]->status=='Tidak Aktif') {
+        if ($data_kegiatan[0]->status=='Non Aktif') {
             # code...
             return abort(404);
         }

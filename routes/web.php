@@ -54,4 +54,6 @@ Route::prefix('home')->group(function () {
     Route::post('/tambah-kegiatan', [AgendaKegiatanController::class, 'store'])->name('kegiatan.store');
     Route::get('/kegiatan/detail/{id}',[AgendaKegiatanController::class,'detail']);
 });
+Route::get('/kegiatan/ubah/status/{id}',[AgendaKegiatanController::class,'ubahstatus']);
+
 

@@ -1,3 +1,8 @@
+document.getElementById("tanggal_selesai").addEventListener("input", function () {
+    if (this.value < document.getElementById("tanggal_mulai").value) {
+        this.value = document.getElementById("tanggal_mulai").value;
+    }
+});
 
 // $(document).ready(function () {  
     const itemsPerPage = 5;
@@ -5,11 +10,10 @@
     let totalData = 0;
     let displayedIds = []; // Menyimpan ID dari card yang sudah ditampilkan
 
-    // Fungsi untuk mengambil data dari API Laravel berdasarkan halaman
+    // Fungsi untuk mengambil data dari home Laravel berdasarkan halaman
     function fetchData(page) {        
-        // console.log(BASE_URL+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`);
         $.ajax({
-            url: BASE_URL+`/api/kegiatan?page=${page}&per_page=${itemsPerPage}`, // Ganti dengan URL API Laravel Anda
+            url: BASE_URL+`/home/data-kegiatan?page=${page}&per_page=${itemsPerPage}`, // Ganti dengan URL home Laravel Anda
             method: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -28,9 +32,12 @@
 
     // Fungsi untuk menampilkan kartu dengan animasi hanya untuk kartu baru
     function renderCards(data) {
-        // console.log(data);
-        
         $('#card-container').empty();
+        if (data==0) {
+            $('#card-container').append('<h1>Belum ada kegitan yang didaftarkan');
+        }
+        
+        // $('#card-container').empty();
 
         data.forEach((item) => {
             const isNewCard = !displayedIds.includes(item.id); // Cek apakah card ini baru
@@ -48,7 +55,7 @@
                     src="${BASE_STORAGE_URL}/${item.flyer}"
                     alt="Card image" onerror="this.onerror=null; this.src='${BASE_URL}/img/logo_kemdikbud.png'">
                     <div class="card-body">
-                    <a href="kegiatan/detail/${item.id}" class="btn btn-primary btn-detail" data-route="home/kegiatan/detail/${item.id}">Detail</a>
+                    <a href="${BASE_URL}/home/kegiatan/detail/${item.id}" class="btn btn-primary btn-detail" data-route="home/kegiatan/detail/${item.id}">Detail</a>
                     ${btn}
                     <p><b>${item.nama_kegiatan}</b></p>
                     <p class="card-text">
@@ -97,7 +104,7 @@
     }
 
     function statusKegiatan(id,params) {
-        $.get("/kegiatan/ubah/status/"+id,
+        $.get("/home/kegiatan/ubah/status/"+id,
             function (data, textStatus, jqXHR) {
                 if (data.status=='Aktif') {
                     $(params).css('background-color', 'green');
@@ -140,12 +147,18 @@
             processData: false,
             contentType: false,
             success: function (response) {
+                // alert(response)
                 $('#formTambahKegiatan')[0].reset();
                 // Tambahkan data baru ke halaman pertama
                 currentPage = 1;
                 fetchData(currentPage);
                 // Tampilkan notifikasi sukses
-
+                let variable = $('#id').val()
+                if(typeof(variable) != "undefined" && variable !== null) {
+                    // bla();
+                    fetchDataDetail(id);
+                    $('#modalUbahKegiatan').modal('hide');
+                }
                 // Tutup modal
                 $('#modalTambahKegiatan').modal('hide');
                 console.log(response);
@@ -213,123 +226,229 @@
         }
     }
 
+    // let prev = document.getElementById('prev').innerHTML;
+    // let imgInp = document.getElementById('flyer').innerHTML;
+    $('#flyer').on('change', async function() {
+        const preview = await previewImage(this);
+        $('#prev').attr('src', preview);
+    });
+
+    function previewImage(input) {
+        return new Promise((resolve, reject) => {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    resolve(e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                reject('No file selected');
+            }
+        });
+    }
+
+
     // Ambil data pertama kali saat halaman pertama dimuat
     function fetchDataDetail(id){
         $.ajax({
-            url: BASE_URL+`/api/kegiatan/detail/json/`+id, // Ganti dengan URL API Laravel Anda
+            url: BASE_URL+`/home/kegiatan/detail/json/`+id, // Ganti dengan URL home Laravel Anda
             method: 'GET',
             dataType: 'json',
             success: function (response) {
+                $('#detail-container').html('');
                 let h_peserta='';
                 let h_panitia='';
                 let h_narasumber='';
-                console.log(BASE_URL+`/api/kegiatan/detail/json/`+id);
+                console.log(BASE_URL+`/home/kegiatan/detail/json/`+id);
                 if(response.h_peserta==0){
                     h_peserta='tidak ada';
                 }
                 else if(response.h_peserta==1){
                     h_peserta='Pulsa';
+                    $('#pe_pulsa')[0].checked = true;
                 }else if(response.h_peserta==2){
                     h_peserta='Rekening';
+                    $('#pe_rekening')[0].checked = true;
                 }else if (response.h_peserta==3) {
                     h_peserta='Pulsa & Rekening';
+                    $('#pe_pulsa')[0].checked = true;
+                    $('#pe_rekening')[0].checked = true;
                 }
 
                 if(response.h_panitia==0){
                     h_panitia='tidak ada';
                 }
                 else if(response.h_panitia==1){
-                    h_panitia='Pulsa';
+                    h_panitia='Pulsa';$('#pa_pulsa')[0].checked = true;
+
                 }else if(response.h_panitia==2){
-                    h_panitia='Rekening';
+                    h_panitia='Rekening';$('#pa_rekening')[0].checked = true;
+
                 }else if (response.h_panitia==3) {
+                    $('#pa_pulsa')[0].checked = true;
                     h_panitia='Pulsa & Rekening';
+                    $('#pa_rekening')[0].checked = true;
+
                 }
 
                 if(response.h_narasumber==0){
                     h_narasumber='tidak ada';
                 }
                 else if(response.h_narasumber==1){
-                    h_narasumber='Pulsa';
+                    h_narasumber='Pulsa';$('#na_pulsa')[0].checked = true;
+
                 }else if(response.h_narasumber==2){
-                    h_narasumber='Rekening';
+                    h_narasumber='Rekening';$('#na_rekening')[0].checked = true;
+
                 }else if (response.h_narasumber==3) {
+                    $('#na_pulsa')[0].checked = true;
                     h_narasumber='Pulsa & Rekening';
+                    $('#na_rekening')[0].checked = true;
+
                 }
+
+                $('#id').val(response.id);
+                $('#nama_kegiatan').val(response.nama_kegiatan);
+                $('#tpk').val(response.tpk);
+                $('#tanggal_mulai').val(response.tanggal_mulai);
+                $('#tanggal_selesai').val(response.tanggal_selesai);
+                $('#pola_kegiatan').val(response.pola_kegiatan);
+                // $('#flyer').val(response.flyer);
+                $('#materi').val(response.materi);
+                $('#dokumentasi').val(response.dokumentasi);
+                $('#panduan').val(response.panduan);
+                $('#jenis_kegiatan').val(response.jenis_kegiatan);
+                $('#prev').attr('src',BASE_STORAGE_URL+'/'+response.flyer);
                 // totalData = response.total; // Asumsi response.total adalah total data keseluruhan
                 const cardHtml = `
                 <img class="card-img-top"
                     src="${BASE_STORAGE_URL}/${response.flyer}"
                     alt="Card image" onerror="this.onerror=null; this.src='${BASE_URL}/img/logo_kemdikbud.png'">
                     <table class="table table-borderless w-100" style="table-layout: fixed;">
-            <tbody>
-                <tr>
-                    <td class="col-4"><strong>Nama Kegiatan</strong></td>
-                    <td class="col-4">: ${response.nama_kegiatan}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>TPK</strong></td>
-                    <td class="col-4">: ${response.tpk}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Tanggal</strong></td>
-                    <td class="col-4">: ${formatTanggalSD(response.tanggal_mulai, response.tanggal_selesai)}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Pola Kegiatan</strong></td>
-                    <td class="col-4">: ${response.pola_kegiatan}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Materi</strong></td>
-                    <td class="col-4">: <a href="${response.materi}" class="btn btn-primary btn-sm" target="_blank">Lihat</a></td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Dokumentasi</strong></td>
-                    <td class="col-4">: <a href="${response.dokumentasi}" class="btn btn-secondary btn-sm" target="_blank">Lihat</a></td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Panduan</strong></td>
-                    <td class="col-4">: <a href="${response.panduan}" class="btn btn-info btn-sm" target="_blank">Lihat</a></td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Jenis Kegiatan</strong></td>
-                    <td class="col-4">: ${response.jenis_kegiatan}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Kode Kegiatan</strong></td>
-                    <td class="col-4">: ${response.kode_kegiatan}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Honor Peserta</strong></td>
-                    <td class="col-4">: ${h_peserta}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Honor Panitia</strong></td>
-                    <td class="col-4">: ${h_panitia}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Honor Narasumber</strong></td>
-                    <td class="col-4">: ${h_narasumber}</td>
-                </tr>
-                <tr>
-                    <td class="col-4"><strong>Status</strong></td>
-                    <td class="col-4">: <span class="badge ${response.status == 'Aktif' ? 'bg-success' : 'bg-danger'}">${response.status}</span></td>
-                </tr>
-                <tr>
-                    <td colspan="2"> <strong>Tautan Form</strong><br>${urlForm(response.id, response.nama_kegiatan)}</td>
-                </tr>
-                <tr>
-                    <td colspan="2"><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalUbahKegiatan">Edit <i class="fa fa-pencil-square" aria-hidden="true"></i></button></td>
-                </tr>
-            </tbody>`;
+                        <tbody>
+                            <tr>
+                                <td class="col-4"><strong>Nama Kegiatan</strong></td>
+                                <td class="col-4">: ${response.nama_kegiatan}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>TPK</strong></td>
+                                <td class="col-4">: ${response.tpk}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Tanggal</strong></td>
+                                <td class="col-4">: ${formatTanggalSD(response.tanggal_mulai, response.tanggal_selesai)}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Pola Kegiatan</strong></td>
+                                <td class="col-4">: ${response.pola_kegiatan}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Materi</strong></td>
+                                <td class="col-4">: <a href="${response.materi}" class="btn btn-primary btn-sm" target="_blank">Lihat</a></td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Dokumentasi</strong></td>
+                                <td class="col-4">: <a href="${response.dokumentasi}" class="btn btn-secondary btn-sm" target="_blank">Lihat</a></td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Panduan</strong></td>
+                                <td class="col-4">: <a href="${response.panduan}" class="btn btn-info btn-sm" target="_blank">Lihat</a></td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Jenis Kegiatan</strong></td>
+                                <td class="col-4">: ${response.jenis_kegiatan}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Kode Kegiatan</strong></td>
+                                <td class="col-4">: ${response.kode_kegiatan}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Honor Peserta</strong></td>
+                                <td class="col-4">: ${h_peserta}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Honor Panitia</strong></td>
+                                <td class="col-4">: ${h_panitia}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Honor Narasumber</strong></td>
+                                <td class="col-4">: ${h_narasumber}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-4"><strong>Status</strong></td>
+                                <td class="col-4">: <span class="badge ${response.status == 'Aktif' ? 'bg-success' : 'bg-danger'}">${response.status}</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"> <strong>Tautan Form</strong><br>${urlForm(response.id, response.nama_kegiatan)}</td>
+                            </tr>
+                            <tr>
+                                <td><button onclick="fetchDataDetail(${response.id})" type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalUbahKegiatan">Ubah <i class="fa fa-pencil-square" aria-hidden="true"></i></button></td>
+                                <td><button onclick="hapus(${response.id})" type="button" class="btn btn-danger">Hapus <i class="fa fa-trash" aria-hidden="true"></i></button></td>
+                                
+                            </tr>
+                        </tbody>   
+                    </table>                               
+                        `;
 
                 $('#detail-container').append(cardHtml);
             },
             error: function (error) {
-                // console.log(BASE_URL+`/api/kegiatan/detail/json/`+id);
+                // console.log(BASE_URL+`/home/kegiatan/detail/json/`+id);
                 console.error("Gagal mengambil data:", error);
             }
         });
+    }
+
+    function hapus(id){
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: "btn btn-success",
+              cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+          });
+          swalWithBootstrapButtons.fire({
+            title: "Anda serius?",
+            text: "Anda tidak akan bisa mengembalikan data yang telah dihapus!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Tidak, batalkan!",
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: BASE_URL+`/home/kegiatan/hapus/`+id, // Ganti dengan URL home Laravel Anda
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Terhapus!",
+                            text: "Data anda telah terhapus.",
+                            icon: "success"
+                        }).then(function() {
+                            window.location = "../";
+                        });
+                    },
+                    error: function (error) {
+                        // console.log(BASE_URL+`/home/kegiatan/detail/json/`+id);
+                        console.error("Gagal mengambil data:", error);
+                    }
+                });
+
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire({
+                title: "Dibatalkan",
+                text: "Data anda masih aman :)",
+                icon: "error"
+              });
+            }
+          });
     }
 
     function urlForm(id,judul) {

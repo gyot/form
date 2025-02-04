@@ -5,6 +5,8 @@ use App\Http\Livewire\FormDataController;
 use App\Http\Livewire\PagesController;
 use App\Http\Livewire\HomeController;
 use App\Http\Livewire\AgendaKegiatanController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +19,9 @@ use App\Http\Livewire\AgendaKegiatanController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/login', function () {
+    return abort(404);
+});
 // --------------------------------------------------------------------------
 Route::get('/form/{id_kegiatan}/{status}/{kegiatan}', [FormDataController::class, 'index']);
 Route::get('/get-biodata/{id_kegiatan}', [PagesController::class, 'createWordDocument']);
@@ -46,14 +48,21 @@ Route::get('/generate-docx', [PagesController::class, 'tes_tabel']);
 //     // Route::post('/tambah-kegiatan', [AgendaKegiatanController::class, 'store'])->name('kegiatan.store');
 // });
 
-Route::prefix('home')->group(function () {
+Route::middleware(['auth'])->prefix('home')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
     Route::get('/kegiatan',[AgendaKegiatanController::class, 'index'])->name('agenda.index');
+    Route::get('/data-kegiatan', [AgendaKegiatanController::class, 'dataApiKegaitan']);
     Route::post('/tambah-kegiatan', [AgendaKegiatanController::class, 'store'])->name('kegiatan.store');
     Route::get('/kegiatan/detail/{id}',[AgendaKegiatanController::class,'detail']);
+    Route::get('/kegiatan/ubah/status/{id}/{status}',[AgendaKegiatanController::class,'ubahstatus']);
+    Route::get('/kegiatan/detail/json/{id}',[AgendaKegiatanController::class,'detailJson']);
+    Route::get('/kegiatan/ubah/status/{id}',[AgendaKegiatanController::class,'ubahstatus']);
+    Route::get('/kegiatan/hapus/{id}', [AgendaKegiatanController::class,'destroy'])->name('hapus');
 });
-Route::get('/kegiatan/ubah/status/{id}',[AgendaKegiatanController::class,'ubahstatus']);
 
-
+Route::get('/laman-masuk', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/laman-masuk', [AuthController::class, 'lamanMasuk']);
+Route::post('/laman-keluar', [AuthController::class, 'logout'])->name('logout');
+// Auth::routes(['register' => false]);

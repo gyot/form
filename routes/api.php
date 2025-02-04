@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/kegiatan', [AgendaKegiatanController::class, 'dataApiKegaitan']);
+// Route::get('/kegiatan', [AgendaKegiatanController::class, 'dataApiKegaitan']);
 Route::get('/kegiatan/detail/json/{id}',[AgendaKegiatanController::class,'detailJson']);
 Route::get('/kegiatan/ubah/status/{id}',[AgendaKegiatanController::class,'ubahstatus']);
-
+Route::get('/kegiatan/hapus/{id}', [AgendaKegiatanController::class,'destroy'])->name('hapus');

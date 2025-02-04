@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\AgendaKegiatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AgendaKegiatanController extends Component
 {
@@ -45,63 +46,125 @@ class AgendaKegiatanController extends Component
 
     public function store(Request $request)
     {
-        $pa_pulsa=$request->pa_pulsa == 1 ? 1 : 0;
-        $pa_rekening=$request->pa_rekening == 2 ? 2 : 0;
-        $na_pulsa=$request->na_pulsa == 1 ? 1 : 0;
-        $na_rekening=$request->na_rekening == 2 ? 2 : 0;
-        $pe_pulsa=$request->pe_pulsa == 1 ? 1 : 0;
-        $pe_rekening=$request->pe_rekening == 2 ? 2 : 0;
-        $kodeKegiatan=$this->generateRandomString();
-        $flyer=$request->flyer == null ? 'tidak ada':$request->flyer;
-        $request->validate([
-            'nama_kegiatan' => 'required|string|max:255',
-            'tpk' => 'required|string|max:255',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'pola_kegiatan' => 'required|string|max:255',
-            'flyer' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:2048',
-            'materi' => 'nullable|url',
-            'dokumentasi' => 'nullable|url',
-            'panduan' => 'nullable|url',
-            'jenis_kegiatan' => 'required|string|max:255',
-            'pa_pulsa' => 'nullable|integer',
-            'pa_rekening' => 'nullable|integer',
-            'na_pulsa' => 'nullable|integer',
-            'na_rekening' => 'nullable|integer',
-            'pe_pulsa' => 'nullable|integer',
-            'pe_rekening' => 'nullable|integer',
-            'h_narasumber' => 'nullable|integer',
-            'id_user' => 'required|exists:users,id',
-        ]);
-        $h_peserta=(int)$request->pe_pulsa+(int)$request->pe_rekening;
-        $h_panitia=(int)$request->pa_pulsa+(int)$request->pa_rekening;
-        $h_narasumber=(int)$request->na_pulsa+(int)$request->na_rekening;
-        $data = array(
-            'nama_kegiatan' => $request->nama_kegiatan,
-            'tpk' => $request->tpk,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
-            'pola_kegiatan' => $request->pola_kegiatan,
-            'flyer' => $flyer,
-            'materi' => $request->materi,
-            'dokumentasi' => $request->dokumentasi,
-            'panduan' => $request->panduan,
-            'jenis_kegiatan' => $request->jenis_kegiatan,
-            'h_peserta' => $h_peserta,
-            'h_panitia' => $h_panitia,
-            'h_narasumber' => $h_narasumber,
-            'id_user' => $request->id_user,
-            'kode_kegiatan' => $kodeKegiatan
-        );
-
-        // dd($data);
-
-        // // Handle file upload for flyer
-        if ($request->hasFile('flyer')) {
-            $data['flyer'] = $request->file('flyer')->store('flyers', 'public');
+        if (isset($request->id)){
+            # code...
+            $pa_pulsa=$request->pa_pulsa == 1 ? 1 : 0;
+            $pa_rekening=$request->pa_rekening == 2 ? 2 : 0;
+            $na_pulsa=$request->na_pulsa == 1 ? 1 : 0;
+            $na_rekening=$request->na_rekening == 2 ? 2 : 0;
+            $pe_pulsa=$request->pe_pulsa == 1 ? 1 : 0;
+            $pe_rekening=$request->pe_rekening == 2 ? 2 : 0;
+            // $kodeKegiatan=$this->generateRandomString();
+            $request->validate([
+                'nama_kegiatan' => 'required|string|max:255',
+                'tpk' => 'required|string|max:255',
+                'tanggal_mulai' => 'required|date',
+                'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+                'pola_kegiatan' => 'required|string|max:255',
+                'flyer' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:2048',
+                'materi' => 'nullable|url',
+                'dokumentasi' => 'nullable|url',
+                'panduan' => 'nullable|url',
+                'jenis_kegiatan' => 'required|string|max:255',
+                'pa_pulsa' => 'nullable|integer',
+                'pa_rekening' => 'nullable|integer',
+                'na_pulsa' => 'nullable|integer',
+                'na_rekening' => 'nullable|integer',
+                'pe_pulsa' => 'nullable|integer',
+                'pe_rekening' => 'nullable|integer',
+                'h_narasumber' => 'nullable|integer',
+                'id_user' => 'required|exists:users,id',
+            ]);
+            $h_peserta=(int)$request->pe_pulsa+(int)$request->pe_rekening;
+            $h_panitia=(int)$request->pa_pulsa+(int)$request->pa_rekening;
+            $h_narasumber=(int)$request->na_pulsa+(int)$request->na_rekening;
+            
+            $simpan=AgendaKegiatan::find($request->id);
+            $simpan->nama_kegiatan = $request->nama_kegiatan;
+            $simpan->tpk = $request->tpk;
+            $simpan->tanggal_mulai = $request->tanggal_mulai;
+            $simpan->tanggal_selesai = $request->tanggal_selesai;
+            $simpan->pola_kegiatan = $request->pola_kegiatan;
+            $simpan->materi = $request->materi;
+            $simpan->dokumentasi = $request->dokumentasi;
+            $simpan->panduan = $request->panduan;
+            $simpan->jenis_kegiatan = $request->jenis_kegiatan;
+            $simpan->h_peserta = $h_peserta;
+            $simpan->h_panitia = $h_panitia;
+            $simpan->h_narasumber = $h_narasumber;
+            $simpan->id_user = $request->id_user;           
+            
+            // dd($data);
+            
+            // // Handle file upload for flyer
+            if ($request->hasFile('flyer')) {
+                Storage::delete($simpan->flyer);
+                // $flyer=$request->flyer == null ? 'tidak ada':$request->flyer;
+                $simpan->flyer = $request->file('flyer')->store('flyers', 'public');
+            }
+            $simpan->save();
+            
+        } else {
+            # code...
+            $pa_pulsa=$request->pa_pulsa == 1 ? 1 : 0;
+            $pa_rekening=$request->pa_rekening == 2 ? 2 : 0;
+            $na_pulsa=$request->na_pulsa == 1 ? 1 : 0;
+            $na_rekening=$request->na_rekening == 2 ? 2 : 0;
+            $pe_pulsa=$request->pe_pulsa == 1 ? 1 : 0;
+            $pe_rekening=$request->pe_rekening == 2 ? 2 : 0;
+            $kodeKegiatan=$this->generateRandomString();
+            $flyer=$request->flyer == null ? 'tidak ada':$request->flyer;
+            $request->validate([
+                'nama_kegiatan' => 'required|string|max:255',
+                'tpk' => 'required|string|max:255',
+                'tanggal_mulai' => 'required|date',
+                'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+                'pola_kegiatan' => 'required|string|max:255',
+                'flyer' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:2048',
+                'materi' => 'nullable|url',
+                'dokumentasi' => 'nullable|url',
+                'panduan' => 'nullable|url',
+                'jenis_kegiatan' => 'required|string|max:255',
+                'pa_pulsa' => 'nullable|integer',
+                'pa_rekening' => 'nullable|integer',
+                'na_pulsa' => 'nullable|integer',
+                'na_rekening' => 'nullable|integer',
+                'pe_pulsa' => 'nullable|integer',
+                'pe_rekening' => 'nullable|integer',
+                'h_narasumber' => 'nullable|integer',
+                'id_user' => 'required|exists:users,id',
+            ]);
+            $h_peserta=(int)$request->pe_pulsa+(int)$request->pe_rekening;
+            $h_panitia=(int)$request->pa_pulsa+(int)$request->pa_rekening;
+            $h_narasumber=(int)$request->na_pulsa+(int)$request->na_rekening;
+            $data = array(
+                'nama_kegiatan' => $request->nama_kegiatan,
+                'tpk' => $request->tpk,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+                'pola_kegiatan' => $request->pola_kegiatan,
+                'flyer' => $flyer,
+                'materi' => $request->materi,
+                'dokumentasi' => $request->dokumentasi,
+                'panduan' => $request->panduan,
+                'jenis_kegiatan' => $request->jenis_kegiatan,
+                'h_peserta' => $h_peserta,
+                'h_panitia' => $h_panitia,
+                'h_narasumber' => $h_narasumber,
+                'id_user' => $request->id_user,
+                'kode_kegiatan' => $kodeKegiatan,
+                'status' => 'Aktif'
+            );
+    
+            // dd($data);
+    
+            // // Handle file upload for flyer
+            if ($request->hasFile('flyer')) {
+                $data['flyer'] = $request->file('flyer')->store('flyers', 'public');
+            }
+            $simpan=AgendaKegiatan::create($data);
         }
-
-        $simpan=AgendaKegiatan::create($data);
+        
         if ($simpan) {
             # code...
             return json_encode('Kegiatan berhasil ditambahkan.');
@@ -109,6 +172,9 @@ class AgendaKegiatanController extends Component
             # code...
             return json_encode($simpan);
         }
+        
+        
+        
         // return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil ditambahkan.');
     }
 
@@ -180,8 +246,8 @@ class AgendaKegiatanController extends Component
         }
 
         $agendaKegiatan->delete();
-
-        return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil dihapus.');
+        return json_encode('Kegiatan berhasil dihapus.');
+        // return redirect()->route('agenda.index')->with('success', 'Agenda Kegiatan berhasil dihapus.');
     }
 
     public function detail($id){

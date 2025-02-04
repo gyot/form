@@ -61,7 +61,8 @@
                         <!-- Input Flyer -->
                         <div class="form-group">
                             <label for="flyer">Flyer</label>
-                            <input type="file" class="form-control" id="flyer" name="flyer">
+                            <input type="file" class="form-control" id="flyer" name="flyer" accept="image/*">
+                            <img style="width:100%" id="prev" src="{{ asset('img/logo_kemdikbud.png') }}" alt="your image" />
                         </div>
 
                         <!-- Input Materi -->
@@ -122,7 +123,8 @@
                             <input type="hidden" value="{{1}}" class="form-control" id="id_user" name="id_user" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="button" class="btn btn-danger float-start" data-dismiss="modal">Batal <i class="fa fa-xing" aria-hidden="true"></i></button>
+                        <button type="submit" class="btn btn-success float-end">Simpan <i class="fa fa-check" aria-hidden="true"></i></button>
                     </form>
                 </div>
             </div>

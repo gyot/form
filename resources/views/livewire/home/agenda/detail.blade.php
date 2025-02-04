@@ -16,118 +16,117 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ubah Kegiatan</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Kegiatan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formUbahKegiatan" method="POST" action="{{ route('kegiatan.store') }}" enctype="multipart/form-data">
-                        @csrf
+                    <form id="formTambahKegiatan" method="POST" action="{{ route('kegiatan.store') }}" enctype="multipart/form-data">
+                        {{-- @csrf --}}
+                        <input type="hidden" name="id" id="id"/>
                         <!-- Input Nama Kegiatan -->
-                        <form id="formTambahKegiatan" method="POST" action="{{ route('kegiatan.store') }}" enctype="multipart/form-data">
-                            @csrf
-                            <!-- Input Nama Kegiatan -->
-                            <div class="form-group">
-                                <label for="nama_kegiatan">Nama Kegiatan</label>
-                                <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" required>
-                            </div>
-    
-                            <!-- Input TPK -->
-                            <div class="form-group">
-                                <label for="tpk">TPK</label>
-                                <input type="text" class="form-control" id="tpk" name="tpk" required>
-                            </div>
-    
-                            <!-- Input Tanggal Mulai -->
-                            <div class="form-group">
-                                <label for="tanggal_mulai">Tanggal Mulai</label>
-                                <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
-                            </div>
-    
-                            <!-- Input Tanggal Selesai -->
-                            <div class="form-group">
-                                <label for="tanggal_selesai">Tanggal Selesai</label>
-                                <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
-                            </div>
-    
-                            <!-- Input Pola Kegiatan -->
-                            <div class="form-group">
-                                <label for="pola_kegiatan">Pola Kegiatan</label>
-                                <input type="text" class="form-control" id="pola_kegiatan" name="pola_kegiatan" required>
-                            </div>
-    
-                            <!-- Input Flyer -->
-                            <div class="form-group">
-                                <label for="flyer">Flyer</label>
-                                <input type="file" class="form-control" id="flyer" name="flyer">
-                            </div>
-    
-                            <!-- Input Materi -->
-                            <div class="form-group">
-                                <label for="materi">Materi</label>
-                                <input type="url" class="form-control" id="materi" name="materi">
-                            </div>
-    
-                            <!-- Input Dokumentasi -->
-                            <div class="form-group">
-                                <label for="dokumentasi">Link Dokumentasi</label>
-                                <input type="url" class="form-control" id="dokumentasi" name="dokumentasi">
-                            </div>
-    
-                            <!-- Input Panduan -->
-                            <div class="form-group">
-                                <label for="panduan">Panduan</label>
-                                <input type="url" class="form-control" id="panduan" name="panduan">
-                            </div>
-    
-                            <!-- Input Jenis Kegiatan -->
-                            <div class="form-group">
-                                <label for="jenis_kegiatan">Jenis Kegiatan</label>
-                                <input type="text" class="form-control" id="jenis_kegiatan" name="jenis_kegiatan" required>
-                            </div>
-    <!-- Input Puls -->
-                            {{-- <div class="form-group">
-                                <label for="pulsa">Pulsa</label>
-                                <input type="checkbox" value="1" id="pulsa" name="pulsa">
-                            </div> --}}
-                            <!-- Input Puls -->
-                            <label>Panitia</label>
-                            <div class="form-group">
-                                <label for="pulsa" class="font-weight-normal">Pulsa</label>
-                                <input type="checkbox" value="1" id="pa_pulsa" name="pa_pulsa">
-                                <label for="rekening" class="font-weight-normal">Rekening</label>
-                                <input type="checkbox" value="2" id="pa_rekening" name="pa_rekening">
-                            </div>
-    
-                            <label>Narasumber</label>
-                            <div class="form-group">
-                                <label for="pulsa" class="font-weight-normal">Pulsa</label>
-                                <input type="checkbox" value="1" id="na_pulsa" name="na_pulsa">
-                                <label for="rekening" class="font-weight-normal">Rekening</label>
-                                <input type="checkbox" value="2" id="na_rekening" name="na_rekening">
-                            </div>
-    
-                            <label>Peserta</label>
-                            <div class="form-group">
-                                <label for="pulsa" class="font-weight-normal">Pulsa</label>
-                                <input type="checkbox" value="1" id="pe_pulsa" name="pe_pulsa">
-                                <label for="rekening" class="font-weight-normal">Rekening</label>
-                                <input type="checkbox" value="2" id="pe_rekening" name="pe_rekening">
-                            </div>
-    
-                            <!-- Input ID User -->
-                            <div class="form-group">
-                                <input type="hidden" value="{{1}}" class="form-control" id="id_user" name="id_user" required>
-                            </div>
-    
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="form-group">
+                            <label for="nama_kegiatan">Nama Kegiatan</label>
+                            <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" required>
+                        </div>
+
+                        <!-- Input TPK -->
+                        <div class="form-group">
+                            <label for="tpk">TPK</label>
+                            <input type="text" class="form-control" id="tpk" name="tpk" required>
+                        </div>
+
+                        <!-- Input Tanggal Mulai -->
+                        <div class="form-group">
+                            <label for="tanggal_mulai">Tanggal Mulai</label>
+                            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+                        </div>
+
+                        <!-- Input Tanggal Selesai -->
+                        <div class="form-group">
+                            <label for="tanggal_selesai">Tanggal Selesai</label>
+                            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
+                        </div>
+
+                        <!-- Input Pola Kegiatan -->
+                        <div class="form-group">
+                            <label for="pola_kegiatan">Pola Kegiatan</label>
+                            <input type="text" class="form-control" id="pola_kegiatan" name="pola_kegiatan" required>
+                        </div>
+
+                        <!-- Input Flyer -->
+                        <div class="form-group">
+                            <label for="flyer">Flyer</label>
+                            <input type="file" class="form-control" id="flyer" name="flyer" accept="image/*">
+                            <img style="width:100%" id="prev" src="{{ asset('img/logo_kemdikbud.png') }}" alt="your image" />
+                        </div>
+
+                        <!-- Input Materi -->
+                        <div class="form-group">
+                            <label for="materi">Materi</label>
+                            <input type="url" class="form-control" id="materi" name="materi">
+                        </div>
+
+                        <!-- Input Dokumentasi -->
+                        <div class="form-group">
+                            <label for="dokumentasi">Link Dokumentasi</label>
+                            <input type="url" class="form-control" id="dokumentasi" name="dokumentasi">
+                        </div>
+
+                        <!-- Input Panduan -->
+                        <div class="form-group">
+                            <label for="panduan">Panduan</label>
+                            <input type="url" class="form-control" id="panduan" name="panduan">
+                        </div>
+
+                        <!-- Input Jenis Kegiatan -->
+                        <div class="form-group">
+                            <label for="jenis_kegiatan">Jenis Kegiatan</label>
+                            <input type="text" class="form-control" id="jenis_kegiatan" name="jenis_kegiatan"  required>
+                        </div>
+                        <label>Panitia</label>
+                        <div class="form-group">
+                            <label for="pulsa" class="font-weight-normal">Pulsa</label>
+                            <input type="checkbox" value="1" id="pa_pulsa" name="pa_pulsa">
+                            <label for="rekening" class="font-weight-normal">Rekening</label>
+                            <input type="checkbox" value="2" id="pa_rekening" name="pa_rekening">
+                        </div>
+
+                        <label>Narasumber</label>
+                        <div class="form-group">
+                            <label for="pulsa" class="font-weight-normal">Pulsa</label>
+                            <input type="checkbox" value="1" id="na_pulsa" name="na_pulsa">
+                            <label for="rekening" class="font-weight-normal">Rekening</label>
+                            <input type="checkbox" value="2" id="na_rekening" name="na_rekening">
+                        </div>
+
+                        <label>Peserta</label>
+                        <div class="form-group">
+                            <label for="pulsa" class="font-weight-normal">Pulsa</label>
+                            <input type="checkbox" value="1" id="pe_pulsa" name="pe_pulsa">
+                            <label for="rekening" class="font-weight-normal">Rekening</label>
+                            <input type="checkbox" value="2" id="pe_rekening" name="pe_rekening">
+                        </div>
+
+                        <!-- Input ID User -->
+                        <div class="form-group">
+                            <input type="hidden" value="{{1}}" class="form-control" id="id_user" name="id_user" required>
+                        </div>
+
+                        {{-- <div class="modal-footer"> --}}
+                            <button type="button" class="btn btn-danger float-start" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning float-end">Ubah <i class="fa fa-pencil-square" aria-hidden="true"></i></button>
+                            {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Ubah</button> --}}
+                        {{-- </div> --}}
+                        {{-- <button type="submit" class="btn btn-primary">Ubah</button>&emsp14;<button class="btn btn-danger">Batal</button> --}}
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
+    <!-- end Modal -->
     {{-- end Modal input kegiatan --}}
 @endsection
 
